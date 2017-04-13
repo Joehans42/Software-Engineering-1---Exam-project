@@ -5,12 +5,11 @@
 public class Employee {
     
     private final String uuid;
-    private int unloggedTime;
+    private int unloggedTime = 0;
     
-    public Employee(String uuid, int unloggedTime){
+    public Employee(String uuid){
         
         this.uuid = uuid;
-        this.unloggedTime = unloggedTime;
         
     }
 
@@ -21,6 +20,9 @@ public class Employee {
     }
 
     public void setUnloggedTime(int unloggedTime){
+        
+        if(unloggedTime < 0)
+            throw new IllegalArgumentException("Cannot set employee's unlogged time to zero!");
         
         this.unloggedTime = unloggedTime;
         

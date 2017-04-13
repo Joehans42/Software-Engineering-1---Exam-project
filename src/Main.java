@@ -1,5 +1,5 @@
-import java.util.ArrayList;
-import java.util.SortedSet;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by johan on 27/03/2017.
@@ -7,40 +7,43 @@ import java.util.SortedSet;
  */
 public class Main {
     
-    private static final Main instance = new Main();
-    private static final ArrayList<Employee> employees = new ArrayList<>();
-    private static final ArrayList<Project> projects = new ArrayList<>();
-    private static final ArrayList<StaticActivity> stactivities = new ArrayList<>();
+    private final HashMap<String, Employee> employees = new HashMap<>();
+    private final HashMap<String, Project> projects = new HashMap<>();
+    private final ArrayList<StaticActivity> stactivities = new ArrayList<>();
     
-    private Main(){}
-    
-    public static Main getInstance(){
+    public static void main(String args[]){
         
-        return instance;
-        
-    }
-
-    public static ArrayList<Employee> getEmployees() {
-        
-        return employees;
-        
-    }
-
-    public static ArrayList<Project> getProjects() {
-        
-        return projects;
-        
-    }
-
-    public static ArrayList<StaticActivity> getStaticActivities() {
-        
-        return stactivities;
+        //TODO: build the GUI here, text-based
         
     }
     
-    public static SortedSet<Employee> getAvailableEmployees(){
+    public Collection<Employee> getAvailableEmployees(){
         
         return null; //TODO: implement
         
+    }
+    
+    public static int toWeek(Date d){
+        
+        return (int) (TimeUnit.MILLISECONDS.toDays(d.getTime()) / 7L);
+        
+    }
+    
+    public static int currentWeek(){
+        
+        return toWeek(new Date());
+        
+    }
+
+    public HashMap<String, Employee> getEmployees() {
+        return employees;
+    }
+
+    public HashMap<String, Project> getProjects() {
+        return projects;
+    }
+
+    public ArrayList<StaticActivity> getStaticActivities() {
+        return stactivities;
     }
 }

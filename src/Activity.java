@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -9,32 +8,33 @@ public class Activity {
     private class Entry{
 
         boolean isAssigned;
-        ArrayList<Integer> loggedTime = new ArrayList<>(); // logged time per week (week n = startWeek+n)
+        HashMap<Integer, Integer> loggedTime = new HashMap<>(); // maps week to time
         
+        Entry(){}
+        
+        Entry(boolean isAssigned){
+            
+            this.isAssigned = isAssigned;
+            
+        }
     }
     
     private final HashMap<Employee, Entry> entries = new HashMap<>();
-    private final Project parent;
     
     private String name;
     private int budgetedTime;
     private int startWeek;
-    private int endWeek;
+    private int duration;
     
-    public Activity(Project parent, String name, int budgetedTime, int startWeek, int endWeek){
-        
-        this.parent = parent;
+    public Activity(String name, int budgetedTime, int startWeek, int duration, Employee... assignees){
         
         this.name = name;
         this.budgetedTime = budgetedTime;
         this.startWeek = startWeek;
-        this.endWeek = endWeek;
+        this.duration = duration;
         
-    }
-
-    public Project getParent() {
-        
-        return parent;
+        for(Employee e : assignees)
+            entries.put(e, new Entry(true));
         
     }
 
@@ -74,15 +74,15 @@ public class Activity {
         
     }
 
-    public int getEndWeek() {
+    public int getDuration() {
         
-        return endWeek;
+        return duration;
         
     }
 
-    public void setEndWeek(int endWeek) {
+    public void setDuration(int duration) {
         
-        this.endWeek = endWeek;
+        this.duration = duration;
         
     }
 
@@ -94,31 +94,60 @@ public class Activity {
     
     public void setAssigned(Employee e, boolean assign){
         
-        //TODO: implement
+        Entry entry = entries.computeIfAbsent(e, emp -> new Entry());
+        entry.isAssigned = assign;
         
     }
     
     public boolean isAssigned(Employee e){
 
-        return false; //TODO: implement
+        Entry entry = entries.get(e);
+        return entry != null && entry.isAssigned;
 
     }
     
     public int getLoggedTime(Employee e, int week){
         
-        return 0; //TODO: implement
+        Entry entry = entries.get(e);
+        
+        if(entry == null)
+            return 0;
+        
+        return entry.loggedTime.getOrDefault(week, 0);
         
     }
     
     public void logTime(Employee e, int week, int time){
         
-        //TODO: implement
+        if(time < 0)
+            throw new IllegalArgumentException("Cannot log negative hours, try unlogging hours instead.");
+        
+        if(time > e.getUnloggedTime())
+            throw new IllegalArgumentException("You cannot log more hours than your current unlogged hours. " +
+                    "Employee " + e.getUuid() + " currently has " + e.getUnloggedTime()/2D + " unlogged hours.");
+        
+        Entry entry = entries.computeIfAbsent(e, emp -> new Entry(false));
+        
+        entry.loggedTime.merge(week, time, (v, t) -> v+t); // add time to current value
+        e.setUnloggedTime(e.getUnloggedTime() - time);
         
     }
 
-    public void unlogTime(Employee employee, int week, int time){
+    public void unlogTime(Employee e, int week, int time){
 
-        //TODO: implement
+        if(time < 0)
+            throw new IllegalArgumentException("Cannot unlog negative hours, try logging hours instead.");
+        
+        Entry entry = entries.computeIfAbsent(e, emp -> new Entry(false));
+        int v = entry.loggedTime.getOrDefault(week, 0);
 
+        if(v-time < 0)
+            throw new IllegalArgumentException("Cannot unlog more hours than have already been logged. " +
+                    "Employee " + e.getUuid() + " currently has " + v/2D + " hours logged on this activity " +
+                    "in week " + (week-startWeek) + ".");
+        
+        entry.loggedTime.put(week, v-time);
+        e.setUnloggedTime(e.getUnloggedTime() + time);
+        
     }
 }
