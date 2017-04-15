@@ -7,63 +7,63 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Created by johan on 27/03/2017.
- * 
  */
-public class Project {
+public class Project{
     
     private static final AtomicInteger counter = new AtomicInteger(1);
     
-    private String name;
-    private String id;
-    private Employee owner;
+    private String   name;
+    private Employee manager;
+    
+    private final int startWeek;
     
     private final ArrayList<Activity> activities = new ArrayList<>();
     
     public Project(String name, int startWeek, Employee owner){
         
         this.name = name;
-        this.id = generateId(startWeek);
-        this.owner = owner;
+        this.startWeek = startWeek;
+        this.manager = owner;
         
     }
     
-    public String getName() {
+    public String getName(){
         
         return name;
         
     }
     
-    public void setName(String name) {
+    public void setName(String name){
         
         this.name = name;
         
     }
     
-    public String getId() {
+    public int getStartWeek(){
         
-        return id;
-        
-    }
-    
-    public void setId(String id) {
-        
-        this.id = id;
+        return startWeek;
         
     }
     
-    public Employee getOwner() {
+    public String getId(){
         
-        return owner;
+        return generateId(startWeek);
         
     }
     
-    public void setOwner(Employee owner) {
+    public Employee getManager(){
         
-        this.owner = owner;
+        return manager;
         
     }
-
-    public ArrayList<Activity> getActivities() {
+    
+    public void setManager(Employee manager){
+        
+        this.manager = manager;
+        
+    }
+    
+    public ArrayList<Activity> getActivities(){
         
         return activities;
         
@@ -71,7 +71,7 @@ public class Project {
     
     public String report(int week){
         
-        //TODO: remember that name and owner can be null
+        //TODO: remember that name and manager can be null
         
         return null; //TODO: implement
         

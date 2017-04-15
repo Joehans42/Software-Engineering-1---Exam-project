@@ -8,14 +8,13 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Kenny on 12-04-2017.
- * 
  */
-public class FullSystemTest {
+public class FullSystemTest{
     
     Main main;
     
     @Before
-    public void setUp() throws Exception {
+    public void setUp() throws Exception{
         
         main = new Main();
         
@@ -42,13 +41,13 @@ public class FullSystemTest {
         
         p1a.add(new Activity("Fej gulvet", 1, p1week, 1, e1));
         p1a.add(new Activity("Møde", 2, p1week, 1, e1, e2, e3));
-        p1a.add(new Activity("Mal kontoret", 20, p1week+1, 2, e1, e2, e3));
-        p1a.add(new Activity("Skaf nye stole", 5, p1week+2, 3, e3));
-
+        p1a.add(new Activity("Mal kontoret", 20, p1week + 1, 2, e1, e2, e3));
+        p1a.add(new Activity("Skaf nye stole", 5, p1week + 2, 3, e3));
+        
         projects.put(p1.getId(), p1);
         
         // project 2 (old project, already completed)
-
+        
         Date p2start = new SimpleDateFormat("dd/MM/yyyy").parse("03/03/2012");
         int p2week = Main.toWeek(p2start);
         
@@ -57,25 +56,25 @@ public class FullSystemTest {
         
         p2a.add(new Activity("User stories", 6, p2week, 1, e1, e2, e3));
         p2a.add(new Activity("Use cases", 6, p2week, 1, e1, e2, e3));
-        p2a.add(new Activity("Klassediagram", 4, p2week+1, 2, e2));
-        p2a.add(new Activity("Sekvensdiagrammer", 6, p2week+2, 1, e3));
-        p2a.add(new Activity("Skriv tests", 20, p2week+2, 3, e1, e2, e3));
+        p2a.add(new Activity("Klassediagram", 4, p2week + 1, 2, e2));
+        p2a.add(new Activity("Sekvensdiagrammer", 6, p2week + 2, 1, e3));
+        p2a.add(new Activity("Skriv tests", 20, p2week + 2, 3, e1, e2, e3));
         
         projects.put(p2.getId(), p2);
         
         // project 3 (future project, not started, untitled, has no owner)
-
+        
         Date p3start = new Date(System.currentTimeMillis() + TimeUnit.DAYS.toMillis(30));
         int p3week = Main.toWeek(p3start);
         
         Project p3 = new Project(null, p3week, null);
         ArrayList<Activity> p3a = p3.getActivities();
-
+        
         p3a.add(new Activity("User stories", 6, p3week, 1, e1, e3));
         p3a.add(new Activity("Use cases", 6, p3week, 1, e1, e2));
-        p3a.add(new Activity("Klassediagram", 4, p3week+1, 2, e2));
-        p3a.add(new Activity("Sekvensdiagrammer", 6, p3week+2, 1, e3));
-        p3a.add(new Activity("Skriv tests", 20, p3week+2, 3, e1, e2, e3));
+        p3a.add(new Activity("Klassediagram", 4, p3week + 1, 2, e2));
+        p3a.add(new Activity("Sekvensdiagrammer", 6, p3week + 2, 1, e3));
+        p3a.add(new Activity("Skriv tests", 20, p3week + 2, 3, e1, e2, e3));
         
         projects.put(p3.getId(), p3);
         

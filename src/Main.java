@@ -1,14 +1,16 @@
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 /**
  * Created by johan on 27/03/2017.
- * 
  */
-public class Main {
+public class Main{
     
-    private final HashMap<String, Employee> employees = new HashMap<>();
-    private final HashMap<String, Project> projects = new HashMap<>();
+    private final HashMap<String, Employee> employees    = new HashMap<>();
+    private final HashMap<String, Project>  projects     = new HashMap<>();
     private final ArrayList<StaticActivity> stactivities = new ArrayList<>();
     
     public static void main(String args[]){
@@ -17,7 +19,7 @@ public class Main {
         
     }
     
-    public Collection<Employee> getAvailableEmployees(){
+    public Collection<Employee> getAvailableEmployees(int week){
         
         return null; //TODO: implement
         
@@ -34,16 +36,16 @@ public class Main {
         return toWeek(new Date());
         
     }
-
-    public HashMap<String, Employee> getEmployees() {
+    
+    public HashMap<String, Employee> getEmployees(){
         return employees;
     }
-
-    public HashMap<String, Project> getProjects() {
+    
+    public HashMap<String, Project> getProjects(){
         return projects;
     }
-
-    public ArrayList<StaticActivity> getStaticActivities() {
+    
+    public ArrayList<StaticActivity> getStaticActivities(){
         return stactivities;
     }
 }
