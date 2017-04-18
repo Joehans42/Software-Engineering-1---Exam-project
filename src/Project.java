@@ -14,13 +14,14 @@ public class Project{
     
     private String   name;
     private Employee manager;
+    final private String id;
     
     private final int startWeek;
     
     private final ArrayList<Activity> activities = new ArrayList<>();
     
     public Project(String name, int startWeek, Employee owner){
-        
+        this.id = generateId(startWeek);
         this.name = name;
         this.startWeek = startWeek;
         this.manager = owner;
@@ -47,7 +48,8 @@ public class Project{
     
     public String getId(){
         
-        return generateId(startWeek);
+        //return generateId(startWeek);
+        return id;
         
     }
     
@@ -73,7 +75,34 @@ public class Project{
         
         //TODO: remember that name and manager can be null
         
-        return null; //TODO: implement
+        //Draft 1.0
+        String managerUuid;
+        if (manager == null) {
+            managerUuid = "no manager";
+        } else {
+            managerUuid = manager.getUuid();
+        }
+        String projectName;
+        if (getName() == null) {
+            projectName = "unnamed";
+        } else {
+            projectName = getName();
+        }
+
+        String report   ="Report of '" + projectName + "'; project week " + week +  "\n\n"+
+                    "Project name:\t\t\t" + projectName + "\n"+
+                    "Project id:\t\t\t\t" + getId() + "\n"+
+                    "Project manager:\t\t" + managerUuid + "\n\n"+
+                    "Project activities:\n\n********************************\n\n";
+        for(Activity a : getActivities()) {
+            report = report + a.report(week, getStartWeek()) + "\n\n";
+        }
+
+        report += "********************************\n\n";
+
+        return report;
+
+        //return null; //TODO: implement
         
     }
     

@@ -114,11 +114,18 @@ public class Activity{
         
     }
     
-    public String report(int week){ //FIXME: not done yet // kenny
+    public String report(int week, int projectStartWeek){ //FIXME: not done yet // kenny
         
         String report = "";
         int total = 0;
-        
+        // Draft 1.0
+        report= "Activity name:\t\t\t" + getName() + "\n"+
+                "Start on project week:\t" + (getStartWeek() - projectStartWeek) + "\n"+
+                "Budgeted time:\t\t\t" + (getBudgetedTime()/2D)+ "\n"+
+                "Duration:\t\t\t\t" + getDuration() + "\n";
+        // End of draft
+
+
         for(Map.Entry<Employee, Entry> ent : entries.entrySet()){
             
             int time = ent.getValue().loggedTime.getOrDefault(week, 0);
@@ -132,11 +139,11 @@ public class Activity{
         
         if(total > 0){ // work has been done this week
             
-            report = "Time has been logged on activity '" + getName() + "' by\n" + report;
+            report += "Time has been logged on activity '" + getName() + "' by\n" + report;
             report += ""; //TODO: percent of expected work this week
             
         }else // nothing this week
-            report = "No time has been logged on activity '" + getName() + "' this week.";
+            report += "No time has been logged on activity '" + getName() + "' this week.";
         
         return report;
         
