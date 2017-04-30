@@ -1,32 +1,23 @@
 import org.junit.Test;
 
-import java.util.Collection;
+import java.text.NumberFormat;
 
 import static org.junit.Assert.assertTrue;
 
 /**
  * Created by Kenny on 13-04-2017.
  */
-public class ProjectManagerTests extends FullSystemTest{
-    
-    @Test
-    public void findAvailableEmployees() throws Exception{
-        
-        int week = Main.currentWeek();
-        Collection<Employee> employees = main.getAvailableEmployees(week);
-        
-    }
+public class GenerateReportsTests extends LoggedSystemTest{
     
     @Test
     public void generateReports() throws Exception{
         for(Project p : main.getProjects().values()){
             for(int i = 0; i < 5; i++){
-
+                
                 String report = p.report(p.getStartWeek() + i);
-                System.out.print(p.report(i));
-
+                System.out.print(p.report(p.getStartWeek() + i));
+                
                 assertTrue(report.contains(p.getId()));
-                assertTrue(report.contains(Integer.toString(i))); // week number relative to start
                 
                 if(p.getName() != null)
                     assertTrue(report.contains(p.getName()));
@@ -40,14 +31,19 @@ public class ProjectManagerTests extends FullSystemTest{
                 
                 for(Activity a : p.getActivities()){
                     
-                    String areport = a.report(p.getStartWeek() + i, p.getStartWeek());
+                    String areport = a.report(p.getStartWeek() + i);
                     
                     // project report should contain the activity report
-                    assertTrue(report.contains(areport));
+                    assertTrue(report.replaceAll("\t", "").contains(areport.replaceAll("\t", ""))); // ignore indent
+                    
                     // more specifically, the activity report should contain
                     assertTrue(areport.contains(a.getName()));
                     assertTrue(areport.contains(Integer.toString(a.getStartWeek() - p.getStartWeek())));
-                    assertTrue(areport.contains(Double.toString(a.getBudgetedTime() / 2D)));
+    
+                    NumberFormat nf = NumberFormat.getInstance();
+                    nf.setMinimumFractionDigits(0);
+                    
+                    assertTrue(areport.contains(nf.format(a.getBudgetedTime() / 2D)));
                     assertTrue(areport.contains(Integer.toString(a.getDuration())));
                     
                 }

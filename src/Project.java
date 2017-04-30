@@ -2,6 +2,7 @@ import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -12,15 +13,16 @@ public class Project{
     
     private static final AtomicInteger counter = new AtomicInteger(1);
     
-    private String   name;
-    private Employee manager;
-    final private String id;
+    private       String   name;
+    private       Employee manager;
+    private final String   id;
     
     private final int startWeek;
     
     private final ArrayList<Activity> activities = new ArrayList<>();
     
     public Project(String name, int startWeek, Employee owner){
+        
         this.id = generateId(startWeek);
         this.name = name;
         this.startWeek = startWeek;
@@ -48,7 +50,6 @@ public class Project{
     
     public String getId(){
         
-        //return generateId(startWeek);
         return id;
         
     }
@@ -73,36 +74,25 @@ public class Project{
     
     public String report(int week){
         
-        //TODO: remember that name and manager can be null
+        Employee manager = getManager();
+        String managerUuid = manager == null ? "no manager" : manager.getUuid();
+        String projectName = Objects.toString(getName(), "unnamed");
         
-        //Draft 1.0
-        String managerUuid;
-        if (manager == null) {
-            managerUuid = "no manager";
-        } else {
-            managerUuid = manager.getUuid();
-        }
-        String projectName;
-        if (getName() == null) {
-            projectName = "unnamed";
-        } else {
-            projectName = getName();
-        }
-
-        String report   ="Report of '" + projectName + "'; project week " + week +  "\n\n"+
-                    "Project name:\t\t\t" + projectName + "\n"+
-                    "Project id:\t\t\t\t" + getId() + "\n"+
-                    "Project manager:\t\t" + managerUuid + "\n\n"+
-                    "Project activities:\n\n********************************\n\n";
-        for(Activity a : getActivities()) {
-            report = report + a.report(week, getStartWeek()) + "\n\n";
-        }
-
-        report += "********************************\n\n";
-
-        return report;
-
-        //return null; //TODO: implement
+        Date d = new Date(TimeUnit.DAYS.toMillis(7 * week));
+        
+        String year = new SimpleDateFormat("yyyy").format(d);
+        String weekInYear = new SimpleDateFormat("ww").format(d);
+        
+        String report = "Report for '" + projectName + "' week " + weekInYear + ", " + year + "\n\n" +
+                        "\tProject name:\t\t\t" + projectName + "\n" +
+                        "\tProject id:\t\t\t\t" + getId() + "\n" +
+                        "\tProject manager:\t\t" + managerUuid + "\n\n" +
+                        "\tProject activities:\n\n********************************\n\n";
+        
+        for(Activity a : getActivities())
+            report = report + "\t" + a.report(week).replaceAll("\n", "\n\t") + "\n\n";
+        
+        return report + "********************************\n\n";
         
     }
     

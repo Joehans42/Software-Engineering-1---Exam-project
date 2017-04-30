@@ -1,3 +1,4 @@
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -27,13 +28,23 @@ public class Main{
     
     public static int toWeek(Date d){
         
-        return (int) (TimeUnit.MILLISECONDS.toDays(d.getTime()) / 7L);
+        return (int) (TimeUnit.MILLISECONDS.toDays(d.getTime()) / 7L) + 1; // +1 for the week we are in
         
     }
     
     public static int currentWeek(){
         
         return toWeek(new Date());
+        
+    }
+    
+    public static String formatWeek(int week){
+        
+        Date d = new Date(TimeUnit.DAYS.toMillis(7 * week));
+        String year = new SimpleDateFormat("yyyy").format(d);
+        String weekInYear = new SimpleDateFormat("ww").format(d);
+        
+        return weekInYear + ", " + year;
         
     }
     

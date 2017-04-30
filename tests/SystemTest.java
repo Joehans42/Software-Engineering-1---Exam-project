@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by Kenny on 12-04-2017.
  */
-public class FullSystemTest{
+public class SystemTest{
     
     Main main;
     

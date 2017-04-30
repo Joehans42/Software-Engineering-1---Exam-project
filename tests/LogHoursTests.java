@@ -1,6 +1,5 @@
 import org.junit.Test;
 
-import java.util.Collection;
 import java.util.Random;
 
 import static org.junit.Assert.assertEquals;
@@ -9,7 +8,7 @@ import static org.junit.Assert.fail;
 /**
  * Created by Kenny on 13-04-2017.
  */
-public class EmployeeTests extends FullSystemTest{
+public class LogHoursTests extends SystemTest{
     
     @Test
     public void employeeLogsTimeInActivity() throws Exception{

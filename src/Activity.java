@@ -1,10 +1,15 @@
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by johan on 27/03/2017.
  */
 public class Activity{
+    
     private class Entry{
         
         boolean isAssigned;
@@ -114,24 +119,30 @@ public class Activity{
         
     }
     
-    public String report(int week, int projectStartWeek){ //FIXME: not done yet // kenny
+    public String report(int week){
         
-        String report = "";
         int total = 0;
-        // Draft 1.0
-        report= "Activity name:\t\t\t" + getName() + "\n"+
-                "Start on project week:\t" + (getStartWeek() - projectStartWeek) + "\n"+
-                "Budgeted time:\t\t\t" + (getBudgetedTime()/2D)+ "\n"+
-                "Duration:\t\t\t\t" + getDuration() + "\n";
-        // End of draft
-
-
+        
+        Date d = new Date(TimeUnit.DAYS.toMillis(7 * week));
+        
+        String year = new SimpleDateFormat("yyyy").format(d);
+        String weekInYear = new SimpleDateFormat("ww").format(d);
+        NumberFormat nf = NumberFormat.getInstance();
+        nf.setMinimumFractionDigits(0);
+        
+        String report = "Activity name:\t\t\t" + getName() + "\n" +
+                        "Start week:\t\t\t\t" + Main.formatWeek(startWeek) + " \n" +
+                        "Budgeted time:\t\t\t" + nf.format((getBudgetedTime() / 2D)) + " hour(s)\n" +
+                        "Duration:\t\t\t\t" + getDuration() + " week(s)\n\n";
+        
+        String work = "";
+        
         for(Map.Entry<Employee, Entry> ent : entries.entrySet()){
             
             int time = ent.getValue().loggedTime.getOrDefault(week, 0);
             
             if(time > 0)
-                report += ent.getKey().getUuid() + ": " + time / 2D + " hours\n";
+                work += ent.getKey().getUuid() + ": " + nf.format(time / 2D) + " hour(s)\n";
             
             total += time;
             
@@ -139,11 +150,14 @@ public class Activity{
         
         if(total > 0){ // work has been done this week
             
-            report += "Time has been logged on activity '" + getName() + "' by\n" + report;
-            report += ""; //TODO: percent of expected work this week
+            report += "Time has been logged on activity '" + getName() + "' by\n";
+            report += work;
             
-        }else // nothing this week
-            report += "No time has been logged on activity '" + getName() + "' this week.";
+            //TODO: percent of expected work this week
+            
+        }
+        else // nothing this week
+            report += "No time has been logged on activity '" + getName() + "' in week " + Main.formatWeek(week) + ".";
         
         return report;
         
@@ -167,7 +181,8 @@ public class Activity{
         
         if(time > e.getUnloggedTime())
             throw new IllegalArgumentException("You cannot log more hours than your current unlogged hours. " +
-                                               "Employee " + e.getUuid() + " currently has " + e.getUnloggedTime() / 2D + " unlogged hours.");
+                                               "Employee " + e.getUuid() + " currently has " +
+                                               e.getUnloggedTime() / 2D + " unlogged hours.");
         
         Entry entry = entries.computeIfAbsent(e, emp -> new Entry(false));
         
@@ -186,8 +201,8 @@ public class Activity{
         
         if(v - time < 0)
             throw new IllegalArgumentException("Cannot unlog more hours than have already been logged. " +
-                                               "Employee " + e.getUuid() + " currently has " + v / 2D + " hours logged on this activity " +
-                                               "in week " + (week - startWeek) + ".");
+                                               "Employee " + e.getUuid() + " currently has " + v / 2D +
+                                               " hours logged on this activity in week " + (week - startWeek) + ".");
         else if(v - time == 0)
             entry.loggedTime.remove(week);
         else
