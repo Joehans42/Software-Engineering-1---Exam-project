@@ -1,7 +1,5 @@
 import org.junit.Test;
 
-import java.text.NumberFormat;
-
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -40,10 +38,7 @@ public class GenerateReportsTests extends LoggedSystemTest{
                     assertTrue(areport.contains(a.getName()));
                     assertTrue(areport.contains(Integer.toString(a.getStartWeek() - p.getStartWeek())));
     
-                    NumberFormat nf = NumberFormat.getInstance();
-                    nf.setMinimumFractionDigits(0);
-                    
-                    assertTrue(areport.contains(nf.format(a.getBudgetedTime() / 2D)));
+                    assertTrue(areport.contains(Main.formatTime(a.getBudgetedTime())));
                     assertTrue(areport.contains(Integer.toString(a.getDuration())));
                     
                 }

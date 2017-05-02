@@ -78,12 +78,7 @@ public class Project{
         String managerUuid = manager == null ? "no manager" : manager.getUuid();
         String projectName = Objects.toString(getName(), "unnamed");
         
-        Date d = new Date(TimeUnit.DAYS.toMillis(7 * week));
-        
-        String year = new SimpleDateFormat("yyyy").format(d);
-        String weekInYear = new SimpleDateFormat("ww").format(d);
-        
-        String report = "Report for '" + projectName + "' week " + weekInYear + ", " + year + "\n\n" +
+        String report = "Report for '" + projectName + "' week " + Main.formatWeek(week) + "\n\n" +
                         "\tProject name:\t\t\t" + projectName + "\n" +
                         "\tProject id:\t\t\t\t" + getId() + "\n" +
                         "\tProject manager:\t\t" + managerUuid + "\n\n" +

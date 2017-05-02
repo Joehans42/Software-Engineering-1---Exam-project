@@ -79,6 +79,7 @@ public class SystemTest{
         projects.put(p3.getId(), p3);
         
         // TODO: create static activities
+        StaticActivity sa1 = new StaticActivity("Ferie");
         
     }
 }

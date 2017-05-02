@@ -1,3 +1,4 @@
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -45,6 +46,15 @@ public class Main{
         String weekInYear = new SimpleDateFormat("ww").format(d);
         
         return weekInYear + ", " + year;
+        
+    }
+    
+    public static String formatTime(int time){
+        
+        NumberFormat nf = NumberFormat.getInstance();
+        nf.setMinimumFractionDigits(0);
+        
+        return nf.format((time / 2D));
         
     }
     
