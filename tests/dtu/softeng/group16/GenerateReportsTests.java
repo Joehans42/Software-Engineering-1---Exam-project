@@ -15,7 +15,6 @@ public class GenerateReportsTests extends LoggedSystemTest{
             for(int i = 0; i < 5; i++){
                 
                 String report = p.report(p.getStartWeek() + i);
-                System.out.print(p.report(p.getStartWeek() + i));
                 
                 assertTrue(report.contains(p.getId()));
                 

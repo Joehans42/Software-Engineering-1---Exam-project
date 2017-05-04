@@ -43,31 +43,74 @@ public class LogHoursTests extends SystemTest{
                     
                     assertEquals(e.getUnloggedTime(), 0);
                     
-                    try{
-                        
-                        a.logTime(e, week, 1);
-                        fail();
-                        
-                    }catch(IllegalArgumentException ex){
-                    } // expected
-                    
-                    a.logTime(e, week, 0); // should work and do nothing
-                    assertEquals(a.getLoggedTime(e, week), t1 + t3);
-                    
                     a.unlogTime(e, week, t1); // remove t1, value of week 0 = t3
                     assertEquals(a.getLoggedTime(e, week), t3);
                     assertEquals(a.getLoggedTime(e, week + 1), t2);
                     
                     a.unlogTime(e, week + 1, t2); // remove t3, value of week 1 = 0
                     
+                }
+            }
+        }
+    }
+    
+    @Test
+    public void employeeHasNoUnloggedHours() throws Exception{
+        
+        int week = Main.currentWeek();
+        
+        for(Employee e : main.getEmployees().values()){
+            for(Project p : main.getProjects().values()){
+                for(Activity a : p.getActivities()){
                     try{
                         
-                        a.unlogTime(e, week + 1, 10); // negative time not allowed
+                        e.setUnloggedTime(0);
+                        
+                        // employee has no more unlogged time, should fail
+                        a.logTime(e, week, 1);
                         fail();
                         
                     }catch(IllegalArgumentException ex){
                     } // expected
+                }
+            }
+        }
+    }
+    
+    @Test
+    public void employeeLogsZeroHours() throws Exception{
+        
+        int week = Main.currentWeek();
+        
+        for(Employee e : main.getEmployees().values()){
+            for(Project p : main.getProjects().values()){
+                for(Activity a : p.getActivities()){
                     
+                    int time = a.getLoggedTime(e, week);
+                    a.logTime(e, week, 0); // should work and do nothing
+                    assertEquals(a.getLoggedTime(e, week), time);
+                    
+                }
+            }
+        }
+    }
+    
+    @Test
+    public void employeeUnlogsTooMuch() throws Exception{
+        
+        int week = Main.currentWeek();
+        
+        for(Employee e : main.getEmployees().values()){
+            for(Project p : main.getProjects().values()){
+                for(Activity a : p.getActivities()){
+                    try{
+                        
+                        int time = a.getLoggedTime(e, week);
+                        a.unlogTime(e, week, time + 1); // negative time not allowed
+                        fail();
+                        
+                    }catch(IllegalArgumentException ex){
+                    } // expected
                 }
             }
         }

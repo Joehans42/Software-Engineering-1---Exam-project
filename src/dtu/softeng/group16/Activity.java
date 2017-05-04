@@ -94,14 +94,16 @@ public class Activity extends StaticActivity{
         
         if(total > 0){ // work has been done this week
             
-            report += "Time has been logged on activity '" + getName() + "' in week " + Main.formatWeek(week) + "by\n";
+            report += "Time has been logged on activity '" + getName() + "' in week " + Main.formatWeek(week) + " by\n";
             report += work;
             
             NumberFormat nf = NumberFormat.getInstance();
+            
+            nf.setGroupingUsed(false);
             nf.setMaximumFractionDigits(0);
             
             double expected = (double) getBudgetedTime()/getDuration(); // we expect even work per week distribution (?)
-            double pct = total / expected;
+            double pct = total / expected * 100;
             
             report += "Total work done: " + total + " (" + nf.format(pct) + "% of expected work this week).";
             
