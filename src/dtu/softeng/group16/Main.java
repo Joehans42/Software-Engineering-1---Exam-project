@@ -1,3 +1,5 @@
+package dtu.softeng.group16;
+
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -14,12 +16,6 @@ public class Main{
     private final HashMap<String, Employee> employees    = new HashMap<>();
     private final HashMap<String, Project>  projects     = new HashMap<>();
     private final ArrayList<StaticActivity> stactivities = new ArrayList<>();
-    
-    public static void main(String args[]){
-        
-        //TODO: build the GUI here, text-based
-        
-    }
     
     public Collection<Employee> getAvailableEmployees(int week){
         

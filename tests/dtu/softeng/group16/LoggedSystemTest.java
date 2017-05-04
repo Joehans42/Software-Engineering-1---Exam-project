@@ -1,3 +1,5 @@
+package dtu.softeng.group16;
+
 /**
  * Created by Kenny on 24/04/2017.
  * An extension of the SystemTest environment with pre-logged hours on some activities.

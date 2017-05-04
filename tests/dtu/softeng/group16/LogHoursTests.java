@@ -1,3 +1,5 @@
+package dtu.softeng.group16;
+
 import org.junit.Test;
 
 import java.util.Random;
@@ -7,6 +9,7 @@ import static org.junit.Assert.fail;
 
 /**
  * Created by Kenny on 13-04-2017.
+ * Disse tests er baseret på use case 'registrerer arbejdstimer'
  */
 public class LogHoursTests extends SystemTest{
     

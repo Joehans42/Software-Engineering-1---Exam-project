@@ -1,3 +1,5 @@
+package dtu.softeng.group16;
+
 import java.util.HashMap;
 import java.util.Map;
 

@@ -1,3 +1,6 @@
+package dtu.softeng.group16;
+
+import dtu.softeng.group16.*;
 import org.junit.Before;
 
 import java.text.SimpleDateFormat;

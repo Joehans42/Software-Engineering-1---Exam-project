@@ -1,3 +1,5 @@
+package dtu.softeng.group16;
+
 /**
  * Created by Kenny on 27-03-2017.
  */

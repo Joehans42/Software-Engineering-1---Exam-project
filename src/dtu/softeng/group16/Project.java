@@ -1,3 +1,5 @@
+package dtu.softeng.group16;
+
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -13,13 +15,12 @@ public class Project{
     
     private static final AtomicInteger counter = new AtomicInteger(1);
     
-    private       String   name;
-    private       Employee manager;
-    private final String   id;
-    
-    private final int startWeek;
-    
     private final ArrayList<Activity> activities = new ArrayList<>();
+    private final String id;
+    private final int    startWeek;
+    
+    private String   name;
+    private Employee manager;
     
     public Project(String name, int startWeek, Employee owner){
         

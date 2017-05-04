@@ -1,3 +1,5 @@
+package dtu.softeng.group16;
+
 import java.text.NumberFormat;
 import java.util.Map;
 
