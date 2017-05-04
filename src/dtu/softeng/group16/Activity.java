@@ -1,6 +1,7 @@
 package dtu.softeng.group16;
 
 import java.text.NumberFormat;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -8,13 +9,15 @@ import java.util.Map;
  */
 public class Activity extends StaticActivity{
     
+    private final HashMap<Employee, Boolean> assigns = new HashMap<>();
+    
     private int budgetedTime;
     private int startWeek;
     private int duration;
     
     public Activity(String name, int budgetedTime, int startWeek, int duration, Employee... assignees){
         
-        super(name, assignees);
+        super(name);
         
         if(duration < 0)
             throw new IllegalArgumentException("Activity duration cannot be negative!");
@@ -25,6 +28,9 @@ public class Activity extends StaticActivity{
         this.budgetedTime = budgetedTime;
         this.startWeek = startWeek;
         this.duration = duration;
+        
+        for(Employee e : assignees)
+            assigns.put(e, true);
         
     }
     
@@ -70,6 +76,18 @@ public class Activity extends StaticActivity{
         
     }
     
+    public void setAssigned(Employee e, boolean assign){ // Kenny
+        
+        assigns.put(e, assign);
+        
+    }
+    
+    public boolean isAssigned(Employee e){ // Kenny
+        
+        return assigns.getOrDefault(e, false);
+        
+    }
+    
     public String report(int week){ // Kenny/Rasmus
         
         int total = 0;
@@ -81,9 +99,9 @@ public class Activity extends StaticActivity{
         
         String work = "";
         
-        for(Map.Entry<Employee, Entry> ent : entries.entrySet()){
+        for(Map.Entry<Employee, HashMap<Integer, Integer>> ent : entries.entrySet()){
             
-            int time = ent.getValue().loggedTime.getOrDefault(week, 0);
+            int time = ent.getValue().getOrDefault(week, 0);
             
             if(time > 0)
                 work += ent.getKey().getUuid() + ": " + Main.formatTime(time) + " hour(s)\n";

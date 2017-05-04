@@ -7,27 +7,13 @@ import java.util.Map;
  * Created by Kenny on 09-04-2017.
  */
 public class StaticActivity{
-    protected class Entry{
-        
-        boolean isAssigned;
-        HashMap<Integer, Integer> loggedTime = new HashMap<>(); // maps week to time
-        
-        Entry(boolean isAssigned){
-            
-            this.isAssigned = isAssigned;
-            
-        }
-    }
     
-    protected final HashMap<Employee, StaticActivity.Entry> entries = new HashMap<>();
+    protected final HashMap<Employee, HashMap<Integer, Integer>> entries = new HashMap<>();
     private String name;
     
-    public StaticActivity(String name, Employee... assignees){
+    public StaticActivity(String name){
         
         this.name = name;
-        
-        for(Employee e : assignees)
-            entries.put(e, new StaticActivity.Entry(true));
         
     }
     
@@ -43,24 +29,6 @@ public class StaticActivity{
         
     }
     
-    public void setAssigned(Employee e, boolean assign){ // Kenny
-        
-        StaticActivity.Entry entry = entries.get(e);
-        
-        if(entry == null)
-            entries.put(e, new StaticActivity.Entry(assign));
-        else
-            entry.isAssigned = assign;
-        
-    }
-    
-    public boolean isAssigned(Employee e){ // Kenny
-        
-        StaticActivity.Entry entry = entries.get(e);
-        return entry != null && entry.isAssigned;
-        
-    }
-    
     public String report(int week){ // Kenny/Rasmus
         
         int total = 0;
@@ -68,9 +36,9 @@ public class StaticActivity{
         String report = "Activity name:\t\t\t" + getName() + "\n";
         String logs = "";
         
-        for(Map.Entry<Employee, StaticActivity.Entry> ent : entries.entrySet()){
+        for(Map.Entry<Employee, HashMap<Integer, Integer>> ent : entries.entrySet()){
             
-            int time = ent.getValue().loggedTime.getOrDefault(week, 0);
+            int time = ent.getValue().getOrDefault(week, 0);
             
             if(time > 0)
                 logs += ent.getKey().getUuid() + ": " + Main.formatTime(time) + " hour(s)\n";
@@ -93,12 +61,12 @@ public class StaticActivity{
     
     public int getLoggedTime(Employee e, int week){ // Kenny
         
-        StaticActivity.Entry entry = entries.get(e);
+        HashMap<Integer, Integer> entry = entries.get(e);
         
         if(entry == null)
             return 0;
         
-        return entry.loggedTime.getOrDefault(week, 0);
+        return entry.getOrDefault(week, 0);
         
     }
     
@@ -107,8 +75,8 @@ public class StaticActivity{
         if(time < 0)
             throw new IllegalArgumentException("Cannot log negative hours, try unlogging hours instead.");
         
-        StaticActivity.Entry entry = entries.computeIfAbsent(e, emp -> new StaticActivity.Entry(false));
-        entry.loggedTime.merge(week, time, (v, t) -> v + t); // add time to current value
+        HashMap<Integer, Integer> entry = entries.computeIfAbsent(e, emp -> new HashMap<>());
+        entry.merge(week, time, (v, t) -> v + t); // add time to current value
         
     }
     
@@ -117,17 +85,17 @@ public class StaticActivity{
         if(time < 0)
             throw new IllegalArgumentException("Cannot unlog negative hours, try logging hours instead.");
         
-        StaticActivity.Entry entry = entries.computeIfAbsent(e, emp -> new StaticActivity.Entry(false));
-        int v = entry.loggedTime.getOrDefault(week, 0); // get time already logged this week
+        HashMap<Integer, Integer> entry = entries.computeIfAbsent(e, emp -> new HashMap<>());
+        int v = entry.getOrDefault(week, 0); // get time already logged this week
         
         if(v - time < 0)
             throw new IllegalArgumentException("Cannot unlog more hours than have already been logged. " +
                                                "Employee " + e.getUuid() + " currently has " + v / 2D +
                                                " hours logged on this activity in week " + Main.formatWeek(week) + ".");
         else if(v - time == 0)
-            entry.loggedTime.remove(week);
+            entry.remove(week);
         else
-            entry.loggedTime.put(week, v - time);
+            entry.put(week, v - time);
         
     }
 }

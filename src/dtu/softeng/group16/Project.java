@@ -4,6 +4,7 @@ import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -13,7 +14,8 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class Project{
     
-    private static final AtomicInteger counter = new AtomicInteger(1);
+    // year mapped to counter
+    private static final HashMap<String, AtomicInteger> counters = new HashMap<>();
     
     private final ArrayList<Activity> activities = new ArrayList<>();
     private final String id;
@@ -102,7 +104,10 @@ public class Project{
         nf.setGroupingUsed(false);
         nf.setMinimumIntegerDigits(4);
         
-        return sdf.format(d) + nf.format(counter.getAndIncrement());
+        String year = sdf.format(d);
+        AtomicInteger counter = counters.computeIfAbsent(year, y -> new AtomicInteger(1));
+        
+        return year + nf.format(counter.getAndIncrement());
         
     }
 }

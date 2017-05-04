@@ -37,4 +37,27 @@ public class Employee{
         return uuid;
         
     }
+    
+    public boolean equals(Object o){
+        
+        if(this == o)
+            return true;
+        
+        if(!(o instanceof Employee))
+            return false;
+        
+        Employee employee = (Employee) o;
+        
+        if(unloggedTime != employee.unloggedTime)
+            return false;
+        
+        return uuid.equals(employee.uuid);
+    }
+    
+    @Override
+    public int hashCode(){
+        int result = uuid.hashCode();
+        result = 31 * result + unloggedTime;
+        return result;
+    }
 }

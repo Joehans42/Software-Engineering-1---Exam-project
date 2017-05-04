@@ -2,11 +2,9 @@ package dtu.softeng.group16;
 
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 /**
  * Created by johan on 27/03/2017.
@@ -17,9 +15,17 @@ public class Main{
     private final HashMap<String, Project>  projects     = new HashMap<>();
     private final ArrayList<StaticActivity> stactivities = new ArrayList<>();
     
-    public Collection<Employee> getAvailableEmployees(int week){
+    public ArrayList<Employee> getAvailableEmployees(int week){
         
-        return null; //TODO: implement
+        HashMap<Employee, Integer> timeMap = new HashMap<>();
+        
+        //TODO: build timeMap
+        
+        return timeMap.entrySet()
+                      .stream()
+                      .sorted(Map.Entry.comparingByValue()) // sort descending
+                      .map(Map.Entry::getKey) // transform entry set to employee set
+                      .collect(Collectors.toCollection(ArrayList::new)); // as ArrayList
         
     }
     
