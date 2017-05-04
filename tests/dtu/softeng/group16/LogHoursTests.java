@@ -14,7 +14,7 @@ import static org.junit.Assert.fail;
 public class LogHoursTests extends SystemTest{
     
     @Test
-    public void employeeLogsTimeInActivity() throws Exception{
+    public void employeeLogsTimeInActivity() throws Exception{ // Kenny
         
         Random rand = new Random();
         int week = Main.currentWeek();
@@ -55,7 +55,7 @@ public class LogHoursTests extends SystemTest{
     }
     
     @Test
-    public void employeeHasNoUnloggedHours() throws Exception{
+    public void employeeHasNoUnloggedHours() throws Exception{ // Kenny
         
         int week = Main.currentWeek();
         
@@ -78,7 +78,7 @@ public class LogHoursTests extends SystemTest{
     }
     
     @Test
-    public void employeeLogsZeroHours() throws Exception{
+    public void employeeLogsZeroHours() throws Exception{ // Kenny
         
         int week = Main.currentWeek();
         
@@ -96,7 +96,7 @@ public class LogHoursTests extends SystemTest{
     }
     
     @Test
-    public void employeeUnlogsTooMuch() throws Exception{
+    public void employeeUnlogsTooMuch() throws Exception{ // Kenny
         
         int week = Main.currentWeek();
         
@@ -117,7 +117,7 @@ public class LogHoursTests extends SystemTest{
     }
     
     @Test
-    public void employeeLogsIllegalTime() throws Exception{
+    public void employeeLogsIllegalTime() throws Exception{ // Kenny
         for(Employee e : main.getEmployees().values()){
             for(Project p : main.getProjects().values()){
                 for(Activity a : p.getActivities()){

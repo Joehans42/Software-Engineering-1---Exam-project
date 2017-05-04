@@ -43,7 +43,7 @@ public class StaticActivity{
         
     }
     
-    public void setAssigned(Employee e, boolean assign){
+    public void setAssigned(Employee e, boolean assign){ // Kenny
         
         StaticActivity.Entry entry = entries.get(e);
         
@@ -54,14 +54,14 @@ public class StaticActivity{
         
     }
     
-    public boolean isAssigned(Employee e){
+    public boolean isAssigned(Employee e){ // Kenny
         
         StaticActivity.Entry entry = entries.get(e);
         return entry != null && entry.isAssigned;
         
     }
     
-    public String report(int week){
+    public String report(int week){ // Kenny/Rasmus
         
         int total = 0;
         
@@ -91,7 +91,7 @@ public class StaticActivity{
         
     }
     
-    public int getLoggedTime(Employee e, int week){
+    public int getLoggedTime(Employee e, int week){ // Kenny
         
         StaticActivity.Entry entry = entries.get(e);
         
@@ -102,7 +102,7 @@ public class StaticActivity{
         
     }
     
-    public void logTime(Employee e, int week, int time){
+    public void logTime(Employee e, int week, int time){ // Kenny
         
         if(time < 0)
             throw new IllegalArgumentException("Cannot log negative hours, try unlogging hours instead.");
@@ -112,7 +112,7 @@ public class StaticActivity{
         
     }
     
-    public void unlogTime(Employee e, int week, int time){
+    public void unlogTime(Employee e, int week, int time){ // Kenny
         
         if(time < 0)
             throw new IllegalArgumentException("Cannot unlog negative hours, try logging hours instead.");
@@ -124,7 +124,6 @@ public class StaticActivity{
             throw new IllegalArgumentException("Cannot unlog more hours than have already been logged. " +
                                                "Employee " + e.getUuid() + " currently has " + v / 2D +
                                                " hours logged on this activity in week " + Main.formatWeek(week) + ".");
-        
         else if(v - time == 0)
             entry.loggedTime.remove(week);
         else

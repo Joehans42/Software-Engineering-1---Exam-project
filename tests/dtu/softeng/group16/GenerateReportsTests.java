@@ -10,7 +10,7 @@ import static org.junit.Assert.assertTrue;
 public class GenerateReportsTests extends LoggedSystemTest{
     
     @Test
-    public void generateReports() throws Exception{
+    public void generateReports() throws Exception{ // Kenny
         for(Project p : main.getProjects().values()){
             for(int i = 0; i < 5; i++){
                 
@@ -38,12 +38,14 @@ public class GenerateReportsTests extends LoggedSystemTest{
                     // more specifically, the activity report should contain
                     assertTrue(areport.contains(a.getName()));
                     assertTrue(areport.contains(Integer.toString(a.getStartWeek() - p.getStartWeek())));
-    
+                    
                     assertTrue(areport.contains(Main.formatTime(a.getBudgetedTime())));
                     assertTrue(areport.contains(Integer.toString(a.getDuration())));
                     
                 }
             }
         }
+        
+        
     }
 }

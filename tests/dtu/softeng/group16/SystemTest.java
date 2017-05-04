@@ -1,6 +1,5 @@
 package dtu.softeng.group16;
 
-import dtu.softeng.group16.*;
 import org.junit.Before;
 
 import java.text.SimpleDateFormat;
@@ -17,7 +16,7 @@ public class SystemTest{
     Main main;
     
     @Before
-    public void setUp() throws Exception{
+    public void setUp() throws Exception{ // Kenny
         
         main = new Main();
         
@@ -81,8 +80,9 @@ public class SystemTest{
         
         projects.put(p3.getId(), p3);
         
-        // TODO: create static activities
-        StaticActivity sa1 = new StaticActivity("Ferie");
+        stactivities.add(new StaticActivity("Ferie"));
+        stactivities.add(new StaticActivity("Sygdom"));
+        stactivities.add(new StaticActivity("Kurser"));
         
     }
 }

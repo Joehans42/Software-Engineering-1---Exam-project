@@ -73,7 +73,7 @@ public class Project{
         
     }
     
-    public String report(int week){
+    public String report(int week){ // Kenny/Rasmus
         
         Employee manager = getManager();
         String managerUuid = manager == null ? "no manager" : manager.getUuid();

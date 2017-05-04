@@ -70,7 +70,7 @@ public class Activity extends StaticActivity{
         
     }
     
-    public String report(int week){
+    public String report(int week){ // Kenny/Rasmus
         
         int total = 0;
         
@@ -115,7 +115,7 @@ public class Activity extends StaticActivity{
         
     }
     
-    public void logTime(Employee e, int week, int time){
+    public void logTime(Employee e, int week, int time){ // Kenny
         
         if(time > e.getUnloggedTime())
             throw new IllegalArgumentException("You cannot log more hours than your current unlogged hours. " +
@@ -127,7 +127,7 @@ public class Activity extends StaticActivity{
         
     }
     
-    public void unlogTime(Employee e, int week, int time){
+    public void unlogTime(Employee e, int week, int time){ // Kenny
         
         super.unlogTime(e, week, time);
         e.setUnloggedTime(e.getUnloggedTime() + time);

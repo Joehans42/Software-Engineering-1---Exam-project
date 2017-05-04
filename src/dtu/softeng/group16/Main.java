@@ -23,19 +23,19 @@ public class Main{
         
     }
     
-    public static int toWeek(Date d){
+    public static int toWeek(Date d){ // Kenny
         
         return (int) (TimeUnit.MILLISECONDS.toDays(d.getTime()) / 7L) + 1; // +1 for the week we are in
         
     }
     
-    public static int currentWeek(){
+    public static int currentWeek(){ // Kenny
         
         return toWeek(new Date());
         
     }
     
-    public static String formatWeek(int week){
+    public static String formatWeek(int week){ // Kenny
         
         Date d = new Date(TimeUnit.DAYS.toMillis(7 * week));
         String year = new SimpleDateFormat("yyyy").format(d);
@@ -45,7 +45,7 @@ public class Main{
         
     }
     
-    public static String formatTime(int time){
+    public static String formatTime(int time){ // Kenny
         
         NumberFormat nf = NumberFormat.getInstance();
         nf.setMinimumFractionDigits(0);
