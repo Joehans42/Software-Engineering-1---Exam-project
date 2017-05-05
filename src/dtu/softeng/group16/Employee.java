@@ -38,6 +38,7 @@ public class Employee{
         
     }
     
+    // required for HashMap in case of hash collision
     public boolean equals(Object o){
         
         if(this == o)
@@ -51,6 +52,7 @@ public class Employee{
         return uuid.equals(employee.uuid);
     }
     
+    // required for HashMap
     public int hashCode(){
         
         return uuid.hashCode();

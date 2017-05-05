@@ -41,6 +41,12 @@ public class FindAvailableEmployeesTests{
         activities.add(new Activity("aktivitet3", 300, Main.currentWeek() + 1, 6, kenn, rasm));
         activities.add(new Activity("aktivitet4", 100, Main.currentWeek(), 4, joha));
         activities.add(new Activity("aktivitet5", 400, Main.currentWeek() + 3, 4, rasm, joha));
+        
+        //TODO: lav nogle static activities (ferie, kurser, mm.) 
+        //TODO: og log noget tid på dem i de forskellige uger for forskellige medarbejdere
+        
+        //TODO: og tilpas datasættene så de virker
+        
     }
     
     @Test

@@ -46,6 +46,9 @@ public class GenerateReportsTests extends LoggedSystemTest{
             }
         }
         
+        //TODO: genererer nogle reports for static activities 
+        //TODO: main.getStaticActivities() indeholder allerede static activities med pre-loggede arbejdstimer,
+        //TODO: der skal bare genereres nogle reports for dem som skal testes ligesom ovenstående
         
     }
 }

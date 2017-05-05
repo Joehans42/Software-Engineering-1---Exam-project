@@ -2,59 +2,87 @@ package dtu.softeng.group16;
 
 import org.junit.Test;
 
-import java.util.Random;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 /**
  * Created by Kenny on 13-04-2017.
- * Disse tests er baseret på use case 'registrerer arbejdstimer'
+ * Disse tests er baseret paa use case 'registrerer arbejdstimer'
+ * 
+ * 04-05-2017: splittede stor test op i mindre tests //Kenny
  */
 public class LogHoursTests extends SystemTest{
     
-    @Test
+    @Test // white
     public void employeeLogsTimeInActivity() throws Exception{ // Kenny
         
-        Random rand = new Random();
         int week = Main.currentWeek();
-        
-        // test all employee, project and activity combinations
         
         for(Employee e : main.getEmployees().values()){
             for(Project p : main.getProjects().values()){
                 for(Activity a : p.getActivities()){
                     
-                    int t1 = rand.nextInt(10) + 6;
-                    int t2 = rand.nextInt(5) + 1;
-                    int t3 = rand.nextInt(5) + 1;
+                    int t1 = 11;
+                    int t2 = 4;
+                    int t3 = 7;
                     
                     e.setUnloggedTime(t1 + t2 + t3);
                     
-                    assertEquals(a.getLoggedTime(e, week), 0);
+                    // time logged before this test
+                    int week0 = a.getLoggedTime(e, week);
+                    int week1 = a.getLoggedTime(e, week+1);
+                    
                     a.logTime(e, week, t1); // add time to week 0
-                    assertEquals(a.getLoggedTime(e, week), t1);
+                    
+                    assertEquals(a.getLoggedTime(e, week), week0+t1);
+                    assertEquals(a.getLoggedTime(e, week+1), week1);
                     
                     a.logTime(e, week + 1, t2); // add time to week 1
-                    assertEquals(a.getLoggedTime(e, week + 1), t2);
+                    
+                    assertEquals(a.getLoggedTime(e, week), week0+t1);
+                    assertEquals(a.getLoggedTime(e, week + 1), week1+t2);
                     
                     a.logTime(e, week, t3); // add more time to week 0
-                    assertEquals(a.getLoggedTime(e, week), t1 + t3);
+                    assertEquals(a.getLoggedTime(e, week), week0 + t1 + t3);
+                    assertEquals(a.getLoggedTime(e, week + 1), week1+t2);
                     
+                    // should have used up all unlogged time now
                     assertEquals(e.getUnloggedTime(), 0);
                     
-                    a.unlogTime(e, week, t1); // remove t1, value of week 0 = t3
-                    assertEquals(a.getLoggedTime(e, week), t3);
-                    assertEquals(a.getLoggedTime(e, week + 1), t2);
+                    // now unlog some time
                     
-                    a.unlogTime(e, week + 1, t2); // remove t3, value of week 1 = 0
+                    a.unlogTime(e, week, t1); // remove t1, value of week 0 = t3
+                    assertEquals(a.getLoggedTime(e, week), week0 + t3);
+                    assertEquals(a.getLoggedTime(e, week + 1), week1+t2);
+                    
+                    a.unlogTime(e, week, t3); // remove t3, value of week 1 = 0
+                    assertEquals(a.getLoggedTime(e, week), week0);
+                    assertEquals(a.getLoggedTime(e, week + 1), week1+t2);
                     
                 }
             }
         }
     }
     
-    @Test
+    @Test // white
+    public void employeeLogsZeroHours() throws Exception{ // Kenny
+        
+        int week = Main.currentWeek();
+        
+        for(Employee e : main.getEmployees().values()){
+            for(Project p : main.getProjects().values()){
+                for(Activity a : p.getActivities()){
+                    
+                    int time = a.getLoggedTime(e, week);
+                    a.logTime(e, week, 0); // should work and do nothing
+                    assertEquals(a.getLoggedTime(e, week), time);
+                    
+                }
+            }
+        }
+    }
+    
+    @Test // black
     public void employeeHasNoUnloggedHours() throws Exception{ // Kenny
         
         int week = Main.currentWeek();
@@ -77,25 +105,7 @@ public class LogHoursTests extends SystemTest{
         }
     }
     
-    @Test
-    public void employeeLogsZeroHours() throws Exception{ // Kenny
-        
-        int week = Main.currentWeek();
-        
-        for(Employee e : main.getEmployees().values()){
-            for(Project p : main.getProjects().values()){
-                for(Activity a : p.getActivities()){
-                    
-                    int time = a.getLoggedTime(e, week);
-                    a.logTime(e, week, 0); // should work and do nothing
-                    assertEquals(a.getLoggedTime(e, week), time);
-                    
-                }
-            }
-        }
-    }
-    
-    @Test
+    @Test // black
     public void employeeUnlogsTooMuch() throws Exception{ // Kenny
         
         int week = Main.currentWeek();
@@ -116,7 +126,7 @@ public class LogHoursTests extends SystemTest{
         }
     }
     
-    @Test
+    @Test // black
     public void employeeLogsIllegalTime() throws Exception{ // Kenny
         for(Employee e : main.getEmployees().values()){
             for(Project p : main.getProjects().values()){
