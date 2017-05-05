@@ -21,7 +21,7 @@ public class LoggedSystemTest extends SystemTest{
                     int duration = a.getDuration();
                     
                     for(int i = start; start + duration > i; i++){
-                        if(a.isAssigned(e)){ // assume assigned workers are more likely to log hours
+                        if(a.getAssignees().contains(e)){ // assume assigned workers are more likely to log hours
                             
                             if(rand.nextInt(3) != 0) // wont always log time
                                 continue;
@@ -29,8 +29,7 @@ public class LoggedSystemTest extends SystemTest{
                             e.setUnloggedTime(rand.nextInt(5) + 5);
                             a.logTime(e, i, e.getUnloggedTime());
                             
-                        }
-                        else{
+                        }else{
                             
                             if(rand.nextInt(6) != 0) // less chance of logging time
                                 continue;

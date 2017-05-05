@@ -1,7 +1,9 @@
 package dtu.softeng.group16;
 
 import java.text.NumberFormat;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
 /**
@@ -9,7 +11,7 @@ import java.util.Map;
  */
 public class Activity extends StaticActivity{
     
-    private final HashMap<Employee, Boolean> assigns = new HashMap<>();
+    private final HashSet<Employee> assignees = new HashSet<>();
     
     private int budgetedTime;
     private int startWeek;
@@ -28,9 +30,8 @@ public class Activity extends StaticActivity{
         this.budgetedTime = budgetedTime;
         this.startWeek = startWeek;
         this.duration = duration;
-        
-        for(Employee e : assignees)
-            assigns.put(e, true);
+    
+        this.assignees.addAll(Arrays.asList(assignees));
         
     }
     
@@ -76,15 +77,9 @@ public class Activity extends StaticActivity{
         
     }
     
-    public void setAssigned(Employee e, boolean assign){ // Kenny
+    public HashSet<Employee> getAssignees(){
         
-        assigns.put(e, assign);
-        
-    }
-    
-    public boolean isAssigned(Employee e){ // Kenny
-        
-        return assigns.getOrDefault(e, false);
+        return assignees;
         
     }
     
@@ -99,7 +94,7 @@ public class Activity extends StaticActivity{
         
         String work = "";
         
-        for(Map.Entry<Employee, HashMap<Integer, Integer>> ent : entries.entrySet()){
+        for(Map.Entry<Employee, HashMap<Integer, Integer>> ent : getEntries().entrySet()){
             
             int time = ent.getValue().getOrDefault(week, 0);
             

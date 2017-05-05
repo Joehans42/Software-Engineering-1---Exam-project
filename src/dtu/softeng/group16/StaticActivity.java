@@ -8,7 +8,8 @@ import java.util.Map;
  */
 public class StaticActivity{
     
-    protected final HashMap<Employee, HashMap<Integer, Integer>> entries = new HashMap<>();
+    // mapping of employee to mapping of weeks to time worked
+    private final HashMap<Employee, HashMap<Integer, Integer>> entries = new HashMap<>();
     private String name;
     
     public StaticActivity(String name){
@@ -26,6 +27,12 @@ public class StaticActivity{
     public String getName(){
         
         return name;
+        
+    }
+    
+    public HashMap<Employee, HashMap<Integer, Integer>> getEntries(){
+        
+        return entries;
         
     }
     

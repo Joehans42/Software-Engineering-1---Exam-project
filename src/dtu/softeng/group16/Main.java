@@ -15,17 +15,54 @@ public class Main{
     private final HashMap<String, Project>  projects     = new HashMap<>();
     private final ArrayList<StaticActivity> stactivities = new ArrayList<>();
     
-    public ArrayList<Employee> getAvailableEmployees(int week){
+    private Main(){}
+    
+    // a regular HashMap has no ordering, but a LinkedHashMap has a predictable order
+    public LinkedHashMap<Employee, Integer> getAvailableEmployees(int week){ // Kenny
         
         HashMap<Employee, Integer> timeMap = new HashMap<>();
         
-        //TODO: build timeMap
+        // we count the projected work hours in the given week
+        for(Project p : getProjects().values()){
+            for(Activity a : p.getActivities()){
+                
+                // make sure the activity takes place during the given week
+                
+                if(a.getStartWeek() > week)
+                    continue;
+                
+                if(a.getStartWeek() + a.getDuration() < week)
+                    continue;
+                
+                int budget = a.getBudgetedTime();
+                int duration = a.getDuration();
+                
+                int proj = budget / duration; // how many expected hours per week
+                
+                for(Employee e : a.getAssignees())
+                    timeMap.merge(e, proj, (i1, i2) -> i1 + i2);
+                
+            }
+        }
+        
+        // we should also count hours logged on static activities
+        // an employee who is on vacation for instance isn't available
+        for(StaticActivity sa : getStaticActivities()){
+            for(Map.Entry<Employee, HashMap<Integer, Integer>> entry : sa.getEntries().entrySet()){
+                
+                Employee e = entry.getKey();
+                int hours = entry.getValue().getOrDefault(week, 0);
+                
+                timeMap.merge(e, hours, (i1, i2) -> i1 + i2);
+                
+            }
+        }
         
         return timeMap.entrySet()
                       .stream()
-                      .sorted(Map.Entry.comparingByValue()) // sort descending
-                      .map(Map.Entry::getKey) // transform entry set to employee set
-                      .collect(Collectors.toCollection(ArrayList::new)); // as ArrayList
+                      .sorted(Map.Entry.<Employee, Integer>comparingByValue().reversed()) // sort ascending
+                      .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
+                                                (e1, e2) -> e1, LinkedHashMap::new));
         
     }
     
