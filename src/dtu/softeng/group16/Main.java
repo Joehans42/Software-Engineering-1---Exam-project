@@ -15,12 +15,13 @@ public class Main{
     private final HashMap<String, Project>  projects     = new HashMap<>();
     private final ArrayList<StaticActivity> stactivities = new ArrayList<>();
     
-    private Main(){}
-    
     // a regular HashMap has no ordering, but a LinkedHashMap has a predictable order
     public LinkedHashMap<Employee, Integer> getAvailableEmployees(int week){ // Kenny
         
         HashMap<Employee, Integer> timeMap = new HashMap<>();
+        
+        for(Employee e : getEmployees().values())
+            timeMap.put(e, 0);
         
         // we count the projected work hours in the given week
         for(Project p : getProjects().values()){
@@ -60,7 +61,7 @@ public class Main{
         
         return timeMap.entrySet()
                       .stream()
-                      .sorted(Map.Entry.<Employee, Integer>comparingByValue().reversed()) // sort ascending
+                      .sorted(Map.Entry.comparingByValue()) // sort ascending
                       .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
                                                 (e1, e2) -> e1, LinkedHashMap::new));
         

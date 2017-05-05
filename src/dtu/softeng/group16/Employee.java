@@ -48,16 +48,12 @@ public class Employee{
         
         Employee employee = (Employee) o;
         
-        if(unloggedTime != employee.unloggedTime)
-            return false;
-        
         return uuid.equals(employee.uuid);
     }
     
-    @Override
     public int hashCode(){
-        int result = uuid.hashCode();
-        result = 31 * result + unloggedTime;
-        return result;
+        
+        return uuid.hashCode();
+        
     }
 }
