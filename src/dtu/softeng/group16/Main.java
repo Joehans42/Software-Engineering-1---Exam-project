@@ -59,6 +59,8 @@ public class Main{
             }
         }
         
+        // sort the timeMap by value (the time) in ascending order
+        // and then collect stream key-value pairs in a new LinkedHashMap
         return timeMap.entrySet()
                       .stream()
                       .sorted(Map.Entry.comparingByValue()) // sort ascending
