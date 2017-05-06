@@ -13,7 +13,7 @@ import static org.junit.Assert.fail;
  */
 public class LogHoursTests extends SystemTest{
     
-    @Test // white
+    @Test // black
     public void employeeLogsTimeInActivity() throws Exception{ // Kenny
         
         int week = Main.currentWeek();
@@ -64,7 +64,7 @@ public class LogHoursTests extends SystemTest{
         }
     }
     
-    @Test // white
+    @Test // black
     public void employeeLogsZeroHours() throws Exception{ // Kenny
         
         int week = Main.currentWeek();

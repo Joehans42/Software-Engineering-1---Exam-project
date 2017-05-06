@@ -9,7 +9,7 @@ import static org.junit.Assert.assertTrue;
  */
 public class GenerateReportsTests extends LoggedSystemTest{
     
-    @Test
+    @Test // white
     public void generateReports() throws Exception{ // Kenny
         for(Project p : main.getProjects().values()){
             for(int i = 0; i < 5; i++){

@@ -1,12 +1,11 @@
 package dtu.softeng.group16;
 
 import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Objects;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -15,7 +14,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class Project{
     
     // year mapped to counter
-    private static final HashMap<String, AtomicInteger> counters = new HashMap<>();
+    private static final HashMap<Integer, AtomicInteger> counters = new HashMap<>();
     
     private final ArrayList<Activity> activities = new ArrayList<>();
     private final String id;
@@ -95,19 +94,23 @@ public class Project{
     }
     
     private static String generateId(int week){ // Kenny
+    
+        LocalDate monday = Main.toMonday(week);
         
-        long time = TimeUnit.DAYS.toMillis(week * 7L);
-        Date d = new Date(time);
+        AtomicInteger counter = counters.computeIfAbsent(monday.getYear(), y -> new AtomicInteger(1));
         
-        SimpleDateFormat sdf = new SimpleDateFormat("yy");
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yy");
         NumberFormat nf = NumberFormat.getInstance();
         nf.setGroupingUsed(false);
         nf.setMinimumIntegerDigits(4);
         
-        String year = sdf.format(d);
-        AtomicInteger counter = counters.computeIfAbsent(year, y -> new AtomicInteger(1));
+        return dtf.format(monday) + nf.format(counter.getAndIncrement());
         
-        return year + nf.format(counter.getAndIncrement());
+    }
+    
+    public static void resetIdCounters(){ // exists for testing purposes
+        
+        counters.clear();
         
     }
 }

@@ -1,9 +1,13 @@
 package dtu.softeng.group16;
 
 import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
-import java.util.*;
-import java.util.concurrent.TimeUnit;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -69,25 +73,31 @@ public class Main{
         
     }
     
-    public static int toWeek(Date d){ // Kenny
-        
-        return (int) (TimeUnit.MILLISECONDS.toDays(d.getTime()) / 7L) + 1; // +1 for the week we are in
+    public static int toWeek(LocalDate d){ // Kenny
+    
+        return (int) ChronoUnit.WEEKS.between(LocalDate.ofEpochDay(0), d);
         
     }
     
     public static int currentWeek(){ // Kenny
         
-        return toWeek(new Date());
+        return toWeek(LocalDate.now());
+        
+    }
+    
+    // returns date of the first day of week (monday)
+    public static LocalDate toMonday(int week){ // Kenny
+        
+        // january 1st 1970 was a thursday, in order to offset this in terms
+        // of week numbers, we have to add 4 days
+        
+        return LocalDate.ofEpochDay(0).plusWeeks(week).plusDays(4);
         
     }
     
     public static String formatWeek(int week){ // Kenny
         
-        Date d = new Date(TimeUnit.DAYS.toMillis(7 * week));
-        String year = new SimpleDateFormat("yyyy").format(d);
-        String weekInYear = new SimpleDateFormat("ww").format(d);
-        
-        return weekInYear + ", " + year;
+        return DateTimeFormatter.ofPattern("ww, yyyy").format(toMonday(week));
         
     }
     

@@ -2,11 +2,9 @@ package dtu.softeng.group16;
 
 import org.junit.Before;
 
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Kenny on 12-04-2017.
@@ -35,7 +33,7 @@ public class SystemTest{
         
         // project 1 (ongoing project)
         
-        Date p1start = new Date(System.currentTimeMillis() - TimeUnit.DAYS.toMillis(7));
+        LocalDate p1start = LocalDate.now().minusDays(7);
         int p1week = Main.toWeek(p1start);
         
         Project p1 = new Project("Forårsrengøring", p1week, e1);
@@ -50,7 +48,7 @@ public class SystemTest{
         
         // project 2 (old project, already completed)
         
-        Date p2start = new SimpleDateFormat("dd/MM/yyyy").parse("03/03/2012");
+        LocalDate p2start = LocalDate.of(2012, 3, 3); // 03/03/2012
         int p2week = Main.toWeek(p2start);
         
         Project p2 = new Project("Bil software", p2week, e2);
@@ -66,7 +64,7 @@ public class SystemTest{
         
         // project 3 (future project, not started, untitled, has no owner)
         
-        Date p3start = new Date(System.currentTimeMillis() + TimeUnit.DAYS.toMillis(30));
+        LocalDate p3start = LocalDate.now().plusDays(30);
         int p3week = Main.toWeek(p3start);
         
         Project p3 = new Project(null, p3week, null);

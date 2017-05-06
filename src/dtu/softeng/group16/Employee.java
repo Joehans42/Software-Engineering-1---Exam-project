@@ -39,7 +39,7 @@ public class Employee{
     }
     
     // required for HashMap in case of hash collision
-    public boolean equals(Object o){
+    public boolean equals(Object o){ // Kenny
         
         if(this == o)
             return true;
@@ -53,7 +53,7 @@ public class Employee{
     }
     
     // required for HashMap
-    public int hashCode(){
+    public int hashCode(){ // Kenny
         
         return uuid.hashCode();
         
