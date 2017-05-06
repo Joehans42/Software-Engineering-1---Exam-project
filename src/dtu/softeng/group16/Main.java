@@ -73,12 +73,6 @@ public class Main{
         
     }
     
-    public static int toWeek(LocalDate d){ // Kenny
-    
-        return (int) ChronoUnit.WEEKS.between(LocalDate.ofEpochDay(0), d);
-        
-    }
-    
     public static int currentWeek(){ // Kenny
         
         return toWeek(LocalDate.now());
@@ -89,9 +83,18 @@ public class Main{
     public static LocalDate toMonday(int week){ // Kenny
         
         // january 1st 1970 was a thursday, in order to offset this in terms
-        // of week numbers, we have to add 4 days
+        // of week numbers, we have to add 3 days
         
-        return LocalDate.ofEpochDay(0).plusWeeks(week).plusDays(4);
+        return LocalDate.ofEpochDay(0).plusWeeks(week).minusDays(3);
+        
+    }
+    
+    public static int toWeek(LocalDate d){ // Kenny
+        
+        // plus 3 days to correctly fit monday-sunday week boundaries
+        // (again because epoch time began on a thursday)
+        
+        return (int) ChronoUnit.WEEKS.between(LocalDate.ofEpochDay(0), d.plusDays(3));
         
     }
     

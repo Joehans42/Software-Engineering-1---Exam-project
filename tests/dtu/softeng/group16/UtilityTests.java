@@ -3,6 +3,7 @@ package dtu.softeng.group16;
 import org.junit.Test;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import static org.junit.Assert.assertEquals;
 
@@ -13,21 +14,23 @@ public class UtilityTests{
     
     @Test // white
     public void testToWeek() throws Exception{ // Kenny
+    
+        System.out.println(DateTimeFormatter.ofPattern("ww, yyyy").format(LocalDate.now()));
         
-        LocalDate d = LocalDate.of(2017, 5, 6); // 06/05/2017
-        int week = Main.toWeek(d);
-        
-        assertEquals(2470, week); // http://www.howlongagogo.com/date/1970/january/1 says it should be 2470
+        assertEquals(2470, Main.toWeek(LocalDate.of(2017, 5, 1)));
+        assertEquals(2470, Main.toWeek(LocalDate.of(2017, 5, 3)));
+        assertEquals(2470, Main.toWeek(LocalDate.of(2017, 5, 7)));
+        assertEquals(2471, Main.toWeek(LocalDate.of(2017, 5, 8)));
         
     }
     
     @Test // white
     public void testFormatWeek() throws Exception{ // Kenny
         
-        LocalDate d = LocalDate.of(2017, 5, 10); // 08/05/2017
-        int week = Main.toWeek(d);
-        
-        assertEquals("19, 2017", Main.formatWeek(week));
+        assertEquals("18, 2017", Main.formatWeek(Main.toWeek(LocalDate.of(2017, 5, 7))));
+        assertEquals("19, 2017", Main.formatWeek(Main.toWeek(LocalDate.of(2017, 5, 8))));
+        assertEquals("19, 2017", Main.formatWeek(Main.toWeek(LocalDate.of(2017, 5, 14))));
+        assertEquals("20, 2017", Main.formatWeek(Main.toWeek(LocalDate.of(2017, 5, 15))));
         
     }
     
