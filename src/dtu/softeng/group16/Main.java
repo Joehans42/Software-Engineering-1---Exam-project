@@ -117,27 +117,8 @@ public class Main{
         return employees;
     }
     
-    public Employee getEmployee(String key) {
-        if (key==null) {
-            return null;
-        }
-        Employee employee = employees.get(key);
-        if (employee==null) {
-            throw new IllegalArgumentException("No employee with uuid: " + key);
-        }
-        return employee;
-    }
-    
     public HashMap<String, Project> getProjects(){
         return projects;
-    }
-    
-    public Project getProject(String key) {
-        Project project = projects.get(key);
-        if (project==null) {
-            throw new IllegalArgumentException("No project with id: " + key);
-        }
-        return project;
     }
     
     public ArrayList<StaticActivity> getStaticActivities(){

@@ -58,6 +58,25 @@ public class SystemUI{
         }
     }
     
+    public static Employee getEmployee(String key) {
+        if (key==null) {
+            return null;
+        }
+        Employee employee = main.getEmployees().get(key);
+        if (employee==null) {
+            throw new IllegalArgumentException("No employee with uuid: " + key);
+        }
+        return employee;
+    }
+    
+    public static Project getProject(String key) {
+        Project project = main.getProjects().get(key);
+        if (project==null) {
+            throw new IllegalArgumentException("No project with id: " + key);
+        }
+        return project;
+    }
+    
     private static String executeCommand(String input){ // Rasmus
         String[] c = input.split(" ");
         try{
@@ -78,7 +97,7 @@ public class SystemUI{
                     checkNotEmpty(c[3]);
                     checkInt(c[3]);
                     c[4] = setEmpty(c[4]);
-                    Project project = new Project(c[2], Main.currentWeek() + Integer.parseInt(c[3]), main.getEmployee(c[4]));
+                    Project project = new Project(c[2], Main.currentWeek() + Integer.parseInt(c[3]), getEmployee(c[4]));
                     main.getProjects().put(project.getId(), project);
                     if(project.getManager() != null){
                         c[4] = project.getManager().getUuid();
@@ -100,7 +119,7 @@ public class SystemUI{
                     checkInt(c[5]);
                     checkInt(c[6]);
                     Activity activity = new Activity(c[3], Integer.parseInt(c[4]), Main.currentWeek() + Integer.parseInt(c[5]), Integer.parseInt(c[6]));
-                    main.getProject(c[2]).addActivity(activity);
+                    getProject(c[2]).addActivity(activity);
                     return "Added new activity \"" + activity.getName() + "\" in project " + c[2] + ":" +
                            "\n\tbudgeted time:\t" + activity.getBudgetedTime() +
                            "\n\tstart week:\t\t" + activity.getStartWeek() +
@@ -114,7 +133,7 @@ public class SystemUI{
                     checkNotEmpty(c[2]);
                     checkNotEmpty(c[3]);
                     checkInt(c[3]);
-                    return main.getProject(c[2]).report(Main.currentWeek() + Integer.parseInt(c[3]));
+                    return getProject(c[2]).report(Main.currentWeek() + Integer.parseInt(c[3]));
                 }
                 
             }
