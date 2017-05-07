@@ -45,11 +45,17 @@ public class FindAvailableEmployeesTests{
         activities.add(new Activity("aktivitet5", 400, Main.currentWeek() + 3, 4, rasm, joha));
 
         // Static activities
-        //TODO: lav nogle static activities (ferie, kurser, mm.)
-        //TODO: og log noget tid på dem i de forskellige uger for forskellige medarbejdere
+        kenn.setUnloggedTime(50);
+        rasm.setUnloggedTime(20);
 
-        //TODO: og tilpas datasættene så de virker
+        StaticActivity ferie = new StaticActivity("Ferie");
+        StaticActivity sygdom = new StaticActivity("Sygdom");
 
+        stac.add(ferie);
+        stac.add(sygdom);
+
+        sygdom.logTime(rasm,Main.currentWeek(),20);
+        ferie.logTime(kenn,Main.currentWeek()+2,50);
     }
     
     @Test // black box test
@@ -65,6 +71,9 @@ public class FindAvailableEmployeesTests{
         week += 1;
         testWeek(week, "kenn", "joha", "rasm");
 
+        // Extra test for static activities (should be joha, kenn, rasm without static activities)
+        week -= 2;
+        testWeek(week,"joha","rasm","kenn");
     }
 
     public void testWeek(int week, String mostTime, String nmostTime, String leastTime){ // Johannes
