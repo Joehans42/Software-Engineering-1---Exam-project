@@ -107,11 +107,12 @@ public class Project{
         nf.setGroupingUsed(false);
         nf.setMinimumIntegerDigits(4);
         
-        int c = counter.get();
-        String formatted = dtf.format(monday) + nf.format(counter.incrementAndGet());
+        int oldc = counter.get();
+        int c = counter.incrementAndGet();
         
-        // counters.get(week) != null and its value is 1 more than what it was before
-        assert c == counters.get(year).get()-1;
+        String formatted = dtf.format(monday) + nf.format(c);
+        
+        assert oldc+1 == c;
         
         return formatted;
         
