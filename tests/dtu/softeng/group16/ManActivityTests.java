@@ -8,11 +8,12 @@ import static org.junit.Assert.fail;
 
 /**
  * Created by Kenny on 07/05/2017.
+ * Disse tests er baseret på use case 'Opret/manage aktiviteter'
  */
 public class ManActivityTests{
 
     @Test
-    public void newActivityBasicTest() throws Exception{
+    public void newActivityBasicTest() throws Exception{ // Johannes
 
         Employee e1 = new Employee("e1");
         Employee e2 = new Employee("e2");
@@ -30,7 +31,7 @@ public class ManActivityTests{
     }
 
     @Test
-    public void manActivityBasicTest() throws Exception{
+    public void manActivityBasicTest() throws Exception{ // Johannes
         
         Employee e1 = new Employee("e1");
         Employee e2 = new Employee("e2");
@@ -57,7 +58,7 @@ public class ManActivityTests{
     }
     
     @Test
-    public void manActivityUniquenessTest() throws Exception{
+    public void manActivityUniquenessTest() throws Exception{ // Kenny
         
         Employee e = new Employee("e");
         Activity a = new Activity("a", 400, Main.currentWeek(), 5, e, e); // added twice
