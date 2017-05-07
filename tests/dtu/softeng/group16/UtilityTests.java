@@ -3,7 +3,6 @@ package dtu.softeng.group16;
 import org.junit.Test;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 import static org.junit.Assert.assertEquals;
 
@@ -15,8 +14,6 @@ public class UtilityTests{
     @Test // white
     public void testToWeek() throws Exception{ // Kenny
     
-        System.out.println(DateTimeFormatter.ofPattern("ww, yyyy").format(LocalDate.now()));
-        
         assertEquals(2470, Main.toWeek(LocalDate.of(2017, 5, 1)));
         assertEquals(2470, Main.toWeek(LocalDate.of(2017, 5, 3)));
         assertEquals(2470, Main.toWeek(LocalDate.of(2017, 5, 7)));
@@ -27,10 +24,10 @@ public class UtilityTests{
     @Test // white
     public void testFormatWeek() throws Exception{ // Kenny
         
+        assertEquals("18, 2017", Main.formatWeek(Main.toWeek(LocalDate.of(2017, 5, 1))));
+        assertEquals("18, 2017", Main.formatWeek(Main.toWeek(LocalDate.of(2017, 5, 3))));
         assertEquals("18, 2017", Main.formatWeek(Main.toWeek(LocalDate.of(2017, 5, 7))));
         assertEquals("19, 2017", Main.formatWeek(Main.toWeek(LocalDate.of(2017, 5, 8))));
-        assertEquals("19, 2017", Main.formatWeek(Main.toWeek(LocalDate.of(2017, 5, 14))));
-        assertEquals("20, 2017", Main.formatWeek(Main.toWeek(LocalDate.of(2017, 5, 15))));
         
     }
     
