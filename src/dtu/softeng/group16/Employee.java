@@ -26,7 +26,7 @@ public class Employee{
     public void setUnloggedTime(int unloggedTime){
         
         if(unloggedTime < 0)
-            throw new IllegalArgumentException("Cannot set employee's unlogged time to zero!");
+            throw new IllegalArgumentException("Cannot set employee's unlogged time to negative time!");
         
         this.unloggedTime = unloggedTime;
         
