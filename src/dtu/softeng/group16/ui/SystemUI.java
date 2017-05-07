@@ -12,7 +12,7 @@ public class SystemUI{
     
     private static Main main;
     
-    public static void main(String args[]){
+    public static void main(String args[]){ // Rasmus
         main = new Main();
         Scanner consoleReader = new Scanner(System.in);
         String output;
@@ -127,6 +127,7 @@ public class SystemUI{
             // Finds the correct command.
             if(c[0].equals("help")){
                 return "An empty argument is given with \"_\". All arguments with a star \"*\" cannot be empty.\n" +
+                       "activity = a, project = p, staticAcivity = sa\n"+
                        "Commands:\n" +
                        "\tadd project <name> <week*> <owner>\n" +
                        "\tadd activity <project_id*> <name*> <budgetedTime*> <startWeek*> <duration*>\n" +
@@ -137,6 +138,7 @@ public class SystemUI{
                        "\tedit activity startWeek <project_id*> <name*> <startWeek*>\n" +
                        "\tedit activity budgetedTime <project_id*> <name*> <budgetedTime*>\n" +
                        "\tedit activity duration <project_id*> <name*> <duration*>\n" +
+                       "\tedit activity employee <project_id*> <name*> <uuid*>\n" +
                        "\treport project <id*> <week*>\n" +
                        "\treport activity <project_id*> <name*> <week*>\n" +
                        "\tlog staticActivity <name*> <uuid*> <week*> <time*>\n" +
@@ -289,6 +291,15 @@ public class SystemUI{
                         checkInt(c[5]);
                         getActivity(c[3], c[4]).setDuration(Integer.parseInt(c[5]));
                         return "Duration of activity \"" + c[4] + "\" chanced to \"" + c[5] + "\".";
+                    }
+                    
+                    else if(c[2].equals("employee")) { // Command: edit activity employee <project_id*> <name*> <uuid*>
+                        checkSize(c, 6);
+                        checkNotEmpty(c[3]);
+                        checkNotEmpty(c[4]);
+                        checkNotEmpty(c[5]);
+                        getActivity(c[3],c[4]).getAssignees().add(getEmployee(c[5]));
+                        return "Employee add to activity" + c[4];
                     }
                     
                 }
