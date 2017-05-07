@@ -66,8 +66,7 @@ public class Main{
         return timeMap.entrySet()
                       .stream()
                       .sorted(Map.Entry.comparingByValue()) // sort ascending
-                      .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
-                                                (e1, e2) -> e1, LinkedHashMap::new));
+                      .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
         
     }
     

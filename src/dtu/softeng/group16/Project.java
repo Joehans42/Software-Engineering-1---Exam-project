@@ -3,8 +3,8 @@ package dtu.softeng.group16;
 import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -16,7 +16,7 @@ public class Project{
     // year mapped to counter
     private static final HashMap<Integer, AtomicInteger> counters = new HashMap<>();
     
-    private final ArrayList<Activity> activities = new ArrayList<>();
+    private final HashSet<Activity> activities = new HashSet<>();
     private final String id;
     private final int    startWeek;
     
@@ -68,19 +68,9 @@ public class Project{
         
     }
     
-    public ArrayList<Activity> getActivities(){
+    public HashSet<Activity> getActivities(){
         
         return activities;
-        
-    }
-    
-    public void addActivity(Activity activity) {
-        for(Activity a : activities) {
-            if(a.getName().equals(activity.getName())) {
-                throw new IllegalArgumentException("Activity already exists: " + activity.getName());
-            }
-        }
-        activities.add(activity);
         
     }
     
@@ -122,7 +112,7 @@ public class Project{
         
         String formatted = dtf.format(monday) + nf.format(c);
         
-        assert oldc+1 == c;
+        assert oldc + 1 == c;
         
         return formatted;
         

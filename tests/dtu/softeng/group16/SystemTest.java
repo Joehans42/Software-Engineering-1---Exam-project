@@ -5,6 +5,7 @@ import org.junit.Before;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 
 /**
  * Created by Kenny on 12-04-2017.
@@ -37,7 +38,7 @@ public class SystemTest{
         int p1week = Main.toWeek(p1start);
         
         Project p1 = new Project("Forårsrengøring", p1week, e1);
-        ArrayList<Activity> p1a = p1.getActivities();
+        HashSet<Activity> p1a = p1.getActivities();
         
         p1a.add(new Activity("Fej gulvet", 1, p1week, 1, e1));
         p1a.add(new Activity("Møde", 2, p1week, 1, e1, e2, e3));
@@ -52,7 +53,7 @@ public class SystemTest{
         int p2week = Main.toWeek(p2start);
         
         Project p2 = new Project("Bil software", p2week, e2);
-        ArrayList<Activity> p2a = p2.getActivities();
+        HashSet<Activity> p2a = p2.getActivities();
         
         p2a.add(new Activity("User stories", 6, p2week, 1, e1, e2, e3));
         p2a.add(new Activity("Use cases", 6, p2week, 1, e1, e2, e3));
@@ -68,7 +69,7 @@ public class SystemTest{
         int p3week = Main.toWeek(p3start);
         
         Project p3 = new Project(null, p3week, null);
-        ArrayList<Activity> p3a = p3.getActivities();
+        HashSet<Activity> p3a = p3.getActivities();
         
         p3a.add(new Activity("User stories", 6, p3week, 1, e1, e3));
         p3a.add(new Activity("Use cases", 6, p3week, 1, e1, e2));

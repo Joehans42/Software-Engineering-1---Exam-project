@@ -105,4 +105,23 @@ public class StaticActivity{
             entry.put(week, v - time);
         
     }
+    
+    public boolean equals(Object o){
+        
+        if(this == o)
+            return true;
+        
+        if(o == null || getClass() != o.getClass())
+            return false;
+        
+        StaticActivity that = (StaticActivity) o;
+        return name.equals(that.name);
+        
+    }
+    
+    public int hashCode(){
+        
+        return name.hashCode();
+        
+    }
 }

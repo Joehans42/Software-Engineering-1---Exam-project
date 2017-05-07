@@ -1,10 +1,10 @@
 package dtu.softeng.group16;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 /**
  * Created by Kenny on 07/05/2017.
@@ -60,13 +60,20 @@ public class ManActivityTests{
     @Test
     public void manActivityUniquenessTest() throws Exception{ // Kenny
         
+        // employees should be distinct on their UUID, so two employees with same UUID
+        // are treated as equal
         Employee e = new Employee("e");
-        Activity a = new Activity("a", 400, Main.currentWeek(), 5, e, e); // added twice
+        Employee e2 = new Employee("e");
+        
+        Activity a = new Activity("a", 400, Main.currentWeek(), 5, e, e, e2);
         
         // the collection should have only unique values
         // count all occurrences of e in the collection, should be 1
         long count = a.getAssignees().stream().filter(e::equals).count();
         assertEquals(count, 1);
+        
+        Employee found = a.getAssignees().stream().findFirst().get();
+        Assert.assertSame(e, found); // deep equals = they are the same exact object
         
     }
 }

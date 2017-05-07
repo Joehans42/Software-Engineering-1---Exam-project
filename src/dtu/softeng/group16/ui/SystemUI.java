@@ -5,6 +5,7 @@ import dtu.softeng.group16.Employee;
 import dtu.softeng.group16.Main;
 import dtu.softeng.group16.Project;
 
+import java.util.HashSet;
 import java.util.Scanner;
 
 /**
@@ -77,6 +78,15 @@ public class SystemUI{
         return project;
     }
     
+    public static void addActivity(Project p, Activity activity){
+    
+        HashSet<Activity> activities = p.getActivities();
+        
+        if(!activities.add(activity)) // if an activity with same name already exists, error
+            throw new IllegalArgumentException("Activity already exists: " + activity.getName());
+        
+    }
+    
     private static String executeCommand(String input){ // Rasmus
         String[] c = input.split(" ");
         try{
@@ -119,7 +129,7 @@ public class SystemUI{
                     checkInt(c[5]);
                     checkInt(c[6]);
                     Activity activity = new Activity(c[3], Integer.parseInt(c[4]), Main.currentWeek() + Integer.parseInt(c[5]), Integer.parseInt(c[6]));
-                    getProject(c[2]).addActivity(activity);
+                    addActivity(getProject(c[2]), activity);
                     return "Added new activity \"" + activity.getName() + "\" in project " + c[2] + ":" +
                            "\n\tbudgeted time:\t" + activity.getBudgetedTime() +
                            "\n\tstart week:\t\t" + activity.getStartWeek() +

@@ -32,7 +32,7 @@ public class FindAvailableEmployeesTests{
         employees.put("rasm", rasm);
 
         Project project = new Project("TestProject", Main.currentWeek(), rasm);
-        ArrayList<Activity> activities = project.getActivities();
+        HashSet<Activity> activities = project.getActivities();
 
         projects.put(project.getId(), project);
 
