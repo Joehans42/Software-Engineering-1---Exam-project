@@ -67,13 +67,6 @@ public class FindAvailableEmployeesTests{
 
     public void testWeek(int week, String mostTime, String nmostTime, String leastTime){ // Johannes
 
-        LinkedHashMap<Employee, Integer> timeMap = main.getAvailableEmployees(week);
-
-        for(Map.Entry<Employee, Integer> entry : timeMap.entrySet())
-            System.out.println(entry.getKey().getUuid() + ": " + entry.getValue());
-
-        System.out.println();
-
         Set<Employee> employees = main.getAvailableEmployees(week).keySet();
         Iterator<Employee> it = employees.iterator();
 

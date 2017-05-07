@@ -4,10 +4,7 @@ import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -42,9 +39,10 @@ public class Main{
                 int budget = a.getBudgetedTime();
                 int duration = a.getDuration();
                 
-                int proj = budget / duration / a.getAssignees().size(); // how many expected hours per week
+                HashSet<Employee> assignees = a.getAssignees();
+                int proj = budget / duration / assignees.size(); // how many expected hours per week
                 
-                for(Employee e : a.getAssignees())
+                for(Employee e : assignees)
                     timeMap.merge(e, proj, (i1, i2) -> i1 + i2);
                 
             }
