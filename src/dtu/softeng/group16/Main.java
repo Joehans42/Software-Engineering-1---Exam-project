@@ -36,13 +36,13 @@ public class Main{
                 if(a.getStartWeek() > week)
                     continue;
                 
-                if(a.getStartWeek() + a.getDuration() < week)
+                if(a.getStartWeek() + a.getDuration() <= week)
                     continue;
                 
                 int budget = a.getBudgetedTime();
                 int duration = a.getDuration();
                 
-                int proj = budget / duration; // how many expected hours per week
+                int proj = budget / duration / a.getAssignees().size(); // how many expected hours per week
                 
                 for(Employee e : a.getAssignees())
                     timeMap.merge(e, proj, (i1, i2) -> i1 + i2);
