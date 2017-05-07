@@ -21,15 +21,10 @@ public class Activity extends StaticActivity{
         
         super(name);
         
-        if(duration < 0)
-            throw new IllegalArgumentException("Activity duration cannot be negative!");
-        
-        if(budgetedTime < 0)
-            throw new IllegalArgumentException("Activity budgeted time cannot be negative!");
-        
-        this.budgetedTime = budgetedTime;
         this.startWeek = startWeek;
-        this.duration = duration;
+        
+        setDuration(duration);
+        setBudgetedTime(budgetedTime);
         
         this.assignees.addAll(Arrays.asList(assignees));
         
@@ -70,8 +65,8 @@ public class Activity extends StaticActivity{
     
     public void setDuration(int duration){
         
-        if(duration < 0)
-            throw new IllegalArgumentException("Activity duration cannot be negative!");
+        if(duration <= 0)
+            throw new IllegalArgumentException("Activity duration cannot be negative or zero!");
         
         this.duration = duration;
         

@@ -44,12 +44,7 @@ public class Employee{
         if(this == o)
             return true;
         
-        if(!(o instanceof Employee))
-            return false;
-        
-        Employee employee = (Employee) o;
-        
-        return uuid.equals(employee.uuid);
+        return o instanceof Employee && uuid.equals(((Employee) o).uuid);
     }
     
     // required for HashMap and HashSet

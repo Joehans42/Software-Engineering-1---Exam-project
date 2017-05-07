@@ -106,16 +106,16 @@ public class StaticActivity{
         
     }
     
+    // ensure activities are distinct based on their names, for HashSet uniqueness
     public boolean equals(Object o){
         
         if(this == o)
             return true;
         
-        if(o == null || getClass() != o.getClass())
+        if(o == null)
             return false;
         
-        StaticActivity that = (StaticActivity) o;
-        return name.equals(that.name);
+        return o instanceof StaticActivity && name.equals(((StaticActivity) o).name);
         
     }
     
