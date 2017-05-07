@@ -23,16 +23,10 @@ public class LoggedSystemTest extends SystemTest{
                     for(int i = start; start + duration > i; i++){
                         if(a.getAssignees().contains(e)){ // assume assigned workers are more likely to log hours
                             
-                            if(rand.nextInt(3) != 0) // wont always log time
-                                continue;
-                            
                             e.setUnloggedTime(rand.nextInt(5) + 5);
                             a.logTime(e, i, e.getUnloggedTime());
                             
                         }else{
-                            
-                            if(rand.nextInt(6) != 0) // less chance of logging time
-                                continue;
                             
                             e.setUnloggedTime(rand.nextInt(3) + 2); // less time too
                             a.logTime(e, i, e.getUnloggedTime());
@@ -43,10 +37,7 @@ public class LoggedSystemTest extends SystemTest{
             
             for(StaticActivity sa : main.getStaticActivities()){
                 
-                if(rand.nextInt(5) != 0)
-                    continue;
-                
-                int week = Main.currentWeek() + rand.nextInt(4) - 2;
+                int week = Main.currentWeek() + rand.nextInt(5);
                 sa.logTime(e, week, rand.nextInt(5));
                 
             }

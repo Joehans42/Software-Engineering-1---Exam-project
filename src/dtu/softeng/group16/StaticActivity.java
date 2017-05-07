@@ -43,7 +43,7 @@ public class StaticActivity{
         String report = "Activity name:\t\t\t" + getName() + "\n";
         String logs = "";
         
-        for(Map.Entry<Employee, HashMap<Integer, Integer>> ent : entries.entrySet()){
+        for(Map.Entry<Employee, HashMap<Integer, Integer>> ent : getEntries().entrySet()){
             
             int time = ent.getValue().getOrDefault(week, 0);
             
@@ -68,7 +68,7 @@ public class StaticActivity{
     
     public int getLoggedTime(Employee e, int week){ // Kenny
         
-        HashMap<Integer, Integer> entry = entries.get(e);
+        HashMap<Integer, Integer> entry = getEntries().get(e);
         
         if(entry == null)
             return 0;
@@ -82,7 +82,7 @@ public class StaticActivity{
         if(time < 0)
             throw new IllegalArgumentException("Cannot log negative hours, try unlogging hours instead.");
         
-        HashMap<Integer, Integer> entry = entries.computeIfAbsent(e, emp -> new HashMap<>());
+        HashMap<Integer, Integer> entry = getEntries().computeIfAbsent(e, emp -> new HashMap<>());
         entry.merge(week, time, (v, t) -> v + t); // add time to current value
         
     }
@@ -92,7 +92,7 @@ public class StaticActivity{
         if(time < 0)
             throw new IllegalArgumentException("Cannot unlog negative hours, try logging hours instead.");
         
-        HashMap<Integer, Integer> entry = entries.computeIfAbsent(e, emp -> new HashMap<>());
+        HashMap<Integer, Integer> entry = getEntries().computeIfAbsent(e, emp -> new HashMap<>());
         int v = entry.getOrDefault(week, 0); // get time already logged this week
         
         if(v - time < 0)

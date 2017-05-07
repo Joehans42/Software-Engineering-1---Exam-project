@@ -36,14 +36,14 @@ public class UtilityTests{
         
         Project.resetIdCounters();
         
-        Project p1 = new Project("p1", Main.currentWeek(), null);
-        Project p2 = new Project("p2", Main.currentWeek(), null);
-        Project p3 = new Project("p3", Main.toWeek(LocalDate.of(2005, 5, 25)), null); // old project
+        Project p1 = new Project(null, 2460, null);
+        Project p2 = new Project(null, 2470, null);
+        Project p3 = new Project(null, 1939, null);
         
         assertEquals("170001", p1.getId()); // test in 2017
         assertEquals("170002", p2.getId());
         
-        assertEquals("050001", p3.getId()); // 2005 test
+        assertEquals("070001", p3.getId());
         
     }
 }

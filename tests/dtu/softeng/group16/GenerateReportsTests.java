@@ -2,6 +2,9 @@ package dtu.softeng.group16;
 
 import org.junit.Test;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -12,7 +15,7 @@ public class GenerateReportsTests extends LoggedSystemTest{
     @Test // white
     public void generateReports() throws Exception{ // Kenny
         for(Project p : main.getProjects().values()){
-            for(int i = 0; i < 5; i++){
+            for(int i = 0; 5 > i; i++){
                 
                 String report = p.report(p.getStartWeek() + i);
                 
@@ -46,9 +49,25 @@ public class GenerateReportsTests extends LoggedSystemTest{
             }
         }
         
-        //TODO: genererer nogle reports for static activities 
-        //TODO: main.getStaticActivities() indeholder allerede static activities med pre-loggede arbejdstimer,
-        //TODO: der skal bare genereres nogle reports for dem som skal testes ligesom ovenstående
-        
+        for(StaticActivity a : main.getStaticActivities()){
+            for(int i = 0; 5 > i; i++){
+                
+                int week = Main.currentWeek() + i;
+                String areport = a.report(week);
+                assertTrue(areport.contains(a.getName()));
+                
+                for(Map.Entry<Employee, HashMap<Integer, Integer>> entries : a.getEntries().entrySet()){
+                    
+                    String uuid = entries.getKey().getUuid();
+                    int time = entries.getValue().getOrDefault(week, 0);
+                    
+                    if(time == 0)
+                        continue;
+    
+                    assertTrue(areport.contains(uuid + ": " + Main.formatTime(time)));
+                    
+                }
+            }
+        }
     }
 }
