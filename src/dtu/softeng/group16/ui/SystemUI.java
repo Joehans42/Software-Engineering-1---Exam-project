@@ -19,7 +19,7 @@ public class SystemUI{
         main = new Main();
         Scanner consoleReader = new Scanner(System.in);
         String output;
-    
+        
         System.out.println("Type \"help\" to begin...");
         while(consoleReader.hasNext()){
             output = executeCommand(consoleReader.nextLine());
@@ -60,27 +60,31 @@ public class SystemUI{
         }
     }
     
-    public static Employee getEmployee(String key) {
-        if (key==null) {
+    public static Employee getEmployee(String key){
+        if(key == null){
             return null;
         }
         Employee employee = main.getEmployees().get(key);
-        if (employee==null) {
+        if(employee == null){
             throw new IllegalArgumentException("No employee with uuid: " + key);
         }
         return employee;
     }
     
-    public static Project getProject(String key) { // Rasmus
+    public static Project getProject(String key){ // Rasmus
         Project project = main.getProjects().get(key);
-        if (project==null) {
+        if(project == null){
             throw new IllegalArgumentException("No project with id: " + key);
         }
         return project;
     }
     
-    public static void addActivity(Project p, Activity activity){ // Rasmus
+    public static void deleteProject(String key){
+        main.getProjects().remove(key);
+    }
     
+    public static void addActivity(Project p, Activity activity){ // Rasmus
+        
         HashSet<Activity> activities = p.getActivities();
         
         if(!activities.add(activity)) // if an activity with same name already exists, error
@@ -89,12 +93,16 @@ public class SystemUI{
     }
     
     public static Activity getActivity(String projectKey, String activityName){ // Rasmus
-        for(Activity a:getProject(projectKey).getActivities()) {
-            if(a.getName().equals(activityName)) {
+        for(Activity a : getProject(projectKey).getActivities()){
+            if(a.getName().equals(activityName)){
                 return a;
             }
         }
         throw new IllegalArgumentException("No activity with name: " + activityName);
+    }
+    
+    public static void deleteActivity(String projectKey, String activityName) { // Rasmus
+        getProject(projectKey).getActivities().remove(getActivity(projectKey,activityName));
     }
     
     private static String executeCommand(String input){ // Rasmus
@@ -102,19 +110,21 @@ public class SystemUI{
         try{
             
             // Finds the correct command.
-            if(c[0].equals("help")) {
-                return  "An empty argument is given with \"_\". All arguments with a star \"*\" cannot be empty.\n"+
-                        "Commands:\n" + 
-                        "\tadd project <name> <weeks from current week*> <owner>\n"+ 
-                        "\tadd activity <project id*> <name*> <budgetedTime*> <startWeek*> <duration*>\n"+ 
-                        "\tedit project manager <id*> <uuid>\n"+ 
-                        "\tedit project name <id*> <name>\n"+ 
-                        "\tedit activity name <id*> <name*> <newName*>\n"+ 
-                        "\tedit activity startWeek <id*> <name*> <startWeek*>\n"+ 
-                        "\tedit activity budgetedTime <id*> <name*> <budgetedTime*>\n"+ 
-                        "\tedit activity duration <id*> <name*> <duration*>\n"+ 
-                        "\treport project <id*> <week*>\n"+ 
-                        "\treport activity <id*> <name*> <week*>";
+            if(c[0].equals("help")){
+                return "An empty argument is given with \"_\". All arguments with a star \"*\" cannot be empty.\n" +
+                       "Commands:\n" +
+                       "\tadd project <name> <weeks from current week*> <owner>\n" +
+                       "\tadd activity <project id*> <name*> <budgetedTime*> <startWeek*> <duration*>\n" +
+                       "\tedit project manager <id*> <uuid>\n" +
+                       "\tedit project name <id*> <name>\n" +
+                       "\tedit activity name <id*> <name*> <newName*>\n" +
+                       "\tedit activity startWeek <id*> <name*> <startWeek*>\n" +
+                       "\tedit activity budgetedTime <id*> <name*> <budgetedTime*>\n" +
+                       "\tedit activity duration <id*> <name*> <duration*>\n" +
+                       "\treport project <id*> <week*>\n" +
+                       "\treport activity <id*> <name*> <week*>\n" + 
+                       "\tdelete project <id*>\n" +
+                       "\tdelete activity <id*> <name*>";
             }
             
             else if(c[0].equals("add") || c[0].equals("new")){
@@ -178,7 +188,7 @@ public class SystemUI{
                     checkNotEmpty(c[3]);
                     checkNotEmpty(c[4]);
                     checkInt(c[4]);
-                    return getActivity(c[2],c[3]).report(Main.currentWeek() + Integer.parseInt(c[4]));
+                    return getActivity(c[2], c[3]).report(Main.currentWeek() + Integer.parseInt(c[4]));
                 }
                 
             }
@@ -212,7 +222,7 @@ public class SystemUI{
                         checkNotEmpty(c[3]);
                         checkNotEmpty(c[4]);
                         checkNotEmpty(c[5]);
-                        getActivity(c[3],c[4]).setName(c[5]);
+                        getActivity(c[3], c[4]).setName(c[5]);
                         return "Name of activity \"" + c[4] + "\" chanced to \"" + c[5] + "\".";
                     }
                     
@@ -222,7 +232,7 @@ public class SystemUI{
                         checkNotEmpty(c[4]);
                         checkNotEmpty(c[5]);
                         checkInt(c[5]);
-                        getActivity(c[3],c[4]).setStartWeek(Integer.parseInt(c[5]));
+                        getActivity(c[3], c[4]).setStartWeek(Integer.parseInt(c[5]));
                         return "Start week of activity \"" + c[4] + "\" chanced to \"" + c[5] + "\".";
                     }
                     
@@ -232,7 +242,7 @@ public class SystemUI{
                         checkNotEmpty(c[4]);
                         checkNotEmpty(c[5]);
                         checkInt(c[5]);
-                        getActivity(c[3],c[4]).setBudgetedTime(Integer.parseInt(c[5]));
+                        getActivity(c[3], c[4]).setBudgetedTime(Integer.parseInt(c[5]));
                         return "Budgeted time of activity \"" + c[4] + "\" chanced to \"" + c[5] + "\".";
                     }
                     
@@ -242,10 +252,29 @@ public class SystemUI{
                         checkNotEmpty(c[4]);
                         checkNotEmpty(c[5]);
                         checkInt(c[5]);
-                        getActivity(c[3],c[4]).setDuration(Integer.parseInt(c[5]));
+                        getActivity(c[3], c[4]).setDuration(Integer.parseInt(c[5]));
                         return "Duration of activity \"" + c[4] + "\" chanced to \"" + c[5] + "\".";
                     }
                     
+                }
+                
+            }
+            
+            else if(c[0].equals("delete")) {
+                
+                if(c[1].equals("activity") || c[1].equals("a")) { // Command: delete activity <id*> <name*>
+                    checkSize(c,4);
+                    checkNotEmpty(c[2]);
+                    checkNotEmpty(c[3]);
+                    deleteActivity(c[2],c[3]);
+                    return "Activty \"" + c[3] + "\" was deleted from project \"" + c[2] + "\".";
+                }
+                
+                else if(c[1].equals("project") || c[1].equals("p")) { // Command: delete project <id*>
+                    checkSize(c,3);
+                    checkNotEmpty(c[2]);
+                    deleteProject(c[2]);
+                    return "Project \"" + c[2] + "\" was deleted.";
                 }
                 
             }
