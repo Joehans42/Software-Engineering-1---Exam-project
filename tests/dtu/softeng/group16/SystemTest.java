@@ -3,7 +3,6 @@ package dtu.softeng.group16;
 import org.junit.Before;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -21,7 +20,7 @@ public class SystemTest{
         
         HashMap<String, Employee> employees = main.getEmployees();
         HashMap<String, Project> projects = main.getProjects();
-        ArrayList<StaticActivity> stactivities = main.getStaticActivities();
+        HashSet<StaticActivity> stactivities = main.getStaticActivities();
         
         // create employees, projects and activities
         Employee e1 = new Employee("kenn");

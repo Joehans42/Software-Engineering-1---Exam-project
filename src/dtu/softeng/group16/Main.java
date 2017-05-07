@@ -14,7 +14,7 @@ public class Main{
     
     private final HashMap<String, Employee> employees    = new HashMap<>();
     private final HashMap<String, Project>  projects     = new HashMap<>();
-    private final ArrayList<StaticActivity> stactivities = new ArrayList<>();
+    private final HashSet<StaticActivity>   stactivities = new HashSet<>();
     
     // a regular HashMap has no ordering, but a LinkedHashMap has a predictable order
     public LinkedHashMap<Employee, Integer> getAvailableEmployees(int week){ // Kenny
@@ -120,7 +120,7 @@ public class Main{
         return projects;
     }
     
-    public ArrayList<StaticActivity> getStaticActivities(){
+    public HashSet<StaticActivity> getStaticActivities(){
         return stactivities;
     }
 }

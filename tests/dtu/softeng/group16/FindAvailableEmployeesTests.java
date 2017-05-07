@@ -21,7 +21,7 @@ public class FindAvailableEmployeesTests{
         main = new Main();
         HashMap<String, Employee> employees = main.getEmployees();
         HashMap<String, Project> projects = main.getProjects();
-        ArrayList<StaticActivity> stac = main.getStaticActivities();
+        HashSet<StaticActivity> stac = main.getStaticActivities();
 
         Employee kenn = new Employee("kenn");
         Employee joha = new Employee("joha");
