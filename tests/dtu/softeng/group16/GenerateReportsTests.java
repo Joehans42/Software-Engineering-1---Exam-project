@@ -20,7 +20,6 @@ public class GenerateReportsTests extends LoggedSystemTest{
                 String report = p.report(p.getStartWeek() + i);
                 
                 assertTrue(report.contains(p.getId()));
-                
                 if(p.getName() != null)
                     assertTrue(report.contains(p.getName()));
                 else

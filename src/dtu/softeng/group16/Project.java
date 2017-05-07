@@ -74,6 +74,16 @@ public class Project{
         
     }
     
+    public void addActivity(Activity activity) {
+        for(Activity a : activities) {
+            if(a.getName().equals(activity.getName())) {
+                throw new IllegalArgumentException("Activity already exists: " + activity.getName());
+            }
+        }
+        activities.add(activity);
+        
+    }
+    
     public String report(int week){ // Kenny/Rasmus
         
         Employee manager = getManager();
