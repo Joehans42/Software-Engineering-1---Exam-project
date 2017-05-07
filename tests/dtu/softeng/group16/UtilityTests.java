@@ -42,7 +42,6 @@ public class UtilityTests{
         
         assertEquals("170001", p1.getId()); // test in 2017
         assertEquals("170002", p2.getId());
-        
         assertEquals("070001", p3.getId());
         
     }

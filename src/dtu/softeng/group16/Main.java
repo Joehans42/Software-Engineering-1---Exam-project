@@ -83,7 +83,7 @@ public class Main{
     public static LocalDate toMonday(int week){ // Kenny
         
         // january 1st 1970 was a thursday, in order to offset this in terms
-        // of week numbers, we have to add 3 days
+        // of week numbers, we have to subtract 3 days
         
         return LocalDate.ofEpochDay(0).plusWeeks(week).minusDays(3);
         
@@ -94,12 +94,14 @@ public class Main{
         // plus 3 days to correctly fit monday-sunday week boundaries
         // (again because epoch time began on a thursday)
         
+        assert d != null;
         return (int) ChronoUnit.WEEKS.between(LocalDate.ofEpochDay(0), d.plusDays(3));
         
     }
     
     public static String formatWeek(int week){ // Kenny
         
+        assert week > 0;
         return DateTimeFormatter.ofPattern("ww, yyyy").format(toMonday(week));
         
     }

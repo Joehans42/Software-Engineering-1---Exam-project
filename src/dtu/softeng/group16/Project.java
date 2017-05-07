@@ -94,17 +94,26 @@ public class Project{
     }
     
     private static String generateId(int week){ // Kenny
-    
-        LocalDate monday = Main.toMonday(week);
         
-        AtomicInteger counter = counters.computeIfAbsent(monday.getYear(), y -> new AtomicInteger(1));
+        assert week > 0;
+        
+        LocalDate monday = Main.toMonday(week);
+        int year = monday.getYear();
+        
+        AtomicInteger counter = counters.computeIfAbsent(year, y -> new AtomicInteger(0));
         
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yy");
         NumberFormat nf = NumberFormat.getInstance();
         nf.setGroupingUsed(false);
         nf.setMinimumIntegerDigits(4);
         
-        return dtf.format(monday) + nf.format(counter.getAndIncrement());
+        int c = counter.get();
+        String formatted = dtf.format(monday) + nf.format(counter.incrementAndGet());
+        
+        // counters.get(week) != null and its value is 1 more than what it was before
+        assert c == counters.get(year).get()-1;
+        
+        return formatted;
         
     }
     
