@@ -37,12 +37,14 @@ public class FindAvailableEmployeesTests{
         projects.put(project.getId(), project);
 
         // Set up a controlled scenario, where we know the time schedule of each employee for every week
+        // Regular activities
         activities.add(new Activity("aktivitet1", 500, Main.currentWeek(), 2, kenn, joha));
         activities.add(new Activity("aktivitet2", 150, Main.currentWeek() + 2, 3, rasm, kenn));
         activities.add(new Activity("aktivitet3", 300, Main.currentWeek() + 1, 6, kenn, rasm));
         activities.add(new Activity("aktivitet4", 100, Main.currentWeek(), 4, joha));
         activities.add(new Activity("aktivitet5", 400, Main.currentWeek() + 3, 4, rasm, joha));
 
+        // Static activities
         //TODO: lav nogle static activities (ferie, kurser, mm.)
         //TODO: og log noget tid på dem i de forskellige uger for forskellige medarbejdere
 
