@@ -83,7 +83,7 @@ public class LogHoursTests extends SystemTest{
     }
     
     @Test // black
-    public void employeeHasNoUnloggedHours() throws Exception{ // Kenny
+    public void employeeLogsTooMuch() throws Exception{ // Kenny
         
         int week = Main.currentWeek();
         
