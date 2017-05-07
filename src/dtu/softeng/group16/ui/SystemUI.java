@@ -1,9 +1,6 @@
 package dtu.softeng.group16.ui;
 
-import dtu.softeng.group16.Activity;
-import dtu.softeng.group16.Employee;
-import dtu.softeng.group16.Main;
-import dtu.softeng.group16.Project;
+import dtu.softeng.group16.*;
 
 import java.util.HashSet;
 import java.util.Scanner;
@@ -82,13 +79,31 @@ public class SystemUI{
     public static void deleteProject(String key){
         main.getProjects().remove(key);
     }
+
+    public static void addStaticActivity(StaticActivity a){ // Rasmus
+        
+        HashSet<StaticActivity> activities = main.getStaticActivities();
+        
+        if(!activities.add(a)) // if an activity with same name already exists, error
+            throw new IllegalArgumentException("Activity already exists: " + a.getName());
+        
+    }
+    
+    public static StaticActivity getStaticActivity(String activityName){ // Rasmus
+        for(StaticActivity a : main.getStaticActivities()){
+            if(a.getName().equals(activityName)){
+                return a;
+            }
+        }
+        throw new IllegalArgumentException("No static activity with name: " + activityName);
+    }
     
     public static void addActivity(Project p, Activity activity){ // Rasmus
         
         HashSet<Activity> activities = p.getActivities();
         
         if(!activities.add(activity)) // if an activity with same name already exists, error
-            throw new IllegalArgumentException("Activity already exists: " + activity.getName());
+            throw new IllegalArgumentException("Static activity already exists: " + activity.getName());
         
     }
     
@@ -113,18 +128,23 @@ public class SystemUI{
             if(c[0].equals("help")){
                 return "An empty argument is given with \"_\". All arguments with a star \"*\" cannot be empty.\n" +
                        "Commands:\n" +
-                       "\tadd project <name> <weeks from current week*> <owner>\n" +
-                       "\tadd activity <project id*> <name*> <budgetedTime*> <startWeek*> <duration*>\n" +
+                       "\tadd project <name> <week*> <owner>\n" +
+                       "\tadd activity <project_id*> <name*> <budgetedTime*> <startWeek*> <duration*>\n" +
+                       "\tadd staticActivity <name*>\n"+
                        "\tedit project manager <id*> <uuid>\n" +
                        "\tedit project name <id*> <name>\n" +
-                       "\tedit activity name <id*> <name*> <newName*>\n" +
-                       "\tedit activity startWeek <id*> <name*> <startWeek*>\n" +
-                       "\tedit activity budgetedTime <id*> <name*> <budgetedTime*>\n" +
-                       "\tedit activity duration <id*> <name*> <duration*>\n" +
+                       "\tedit activity name <project_id*> <name*> <newName*>\n" +
+                       "\tedit activity startWeek <project_id*> <name*> <startWeek*>\n" +
+                       "\tedit activity budgetedTime <project_id*> <name*> <budgetedTime*>\n" +
+                       "\tedit activity duration <project_id*> <name*> <duration*>\n" +
                        "\treport project <id*> <week*>\n" +
-                       "\treport activity <id*> <name*> <week*>\n" + 
+                       "\treport activity <project_id*> <name*> <week*>\n" +
+                       "\tlog staticActivity <name*> <uuid*> <week*> <time*>\n" +
+                       "\tlog <project_id*> <name*> <uuid*> <week*> <time*>\n" +
+                       "\tunlog staticActivity <name*> <uuid*> <week*> <time*>\n" +
+                       "\tunlog <project_id*> <name*> <uuid*> <week*> <time*>\n" +
                        "\tdelete project <id*>\n" +
-                       "\tdelete activity <id*> <name*>";
+                       "\tdelete activity <project_id*> <name*>";
             }
             
             else if(c[0].equals("add") || c[0].equals("new")){
@@ -170,6 +190,13 @@ public class SystemUI{
                            "\n\tstart week:\t\t" + Main.formatWeek(activity.getStartWeek()) +
                            "\n\tduration:\t\t" + activity.getDuration();
                 }
+                
+                else if(c[1].equals("staticActivity") || c[1].equals("sa")) { // Command: add staticActivity <name*>
+                    checkSize(c,3);
+                    checkNotEmpty(c[2]);
+                    addStaticActivity(new StaticActivity(c[2]));
+                    return "Added new static activity \"" + c[2] + "\".";
+                }
             }
             
             else if(c[0].equals("report") || c[0].equals("r")){
@@ -189,6 +216,14 @@ public class SystemUI{
                     checkNotEmpty(c[4]);
                     checkInt(c[4]);
                     return getActivity(c[2], c[3]).report(Main.currentWeek() + Integer.parseInt(c[4]));
+                }
+                
+                else if(c[1].equals("staticActivity") || c[1].equals("sa")){ // Command: report staticActivity <name*> <week*>
+                    checkSize(c, 4);
+                    checkNotEmpty(c[2]);
+                    checkNotEmpty(c[3]);
+                    checkInt(c[3]);
+                    return getStaticActivity(c[2]).report(Integer.parseInt(c[3]));
                 }
                 
             }
@@ -256,6 +291,64 @@ public class SystemUI{
                         return "Duration of activity \"" + c[4] + "\" chanced to \"" + c[5] + "\".";
                     }
                     
+                }
+                
+            }
+            
+            else if(c[0].equals("log")) {
+                
+                if(c[1].equals("staticActivity") || c[1].equals("sa")){ // Command: log staticActivity <name*> <uuid*> <week*> <time*>
+                    checkSize(c,6);
+                    checkNotEmpty(c[2]);
+                    checkNotEmpty(c[3]);
+                    checkNotEmpty(c[4]);
+                    checkNotEmpty(c[5]);
+                    checkInt(c[4]);
+                    checkInt(c[5]);
+                    getStaticActivity(c[2]).logTime(getEmployee(c[3]),Integer.parseInt(c[4]),Integer.parseInt(c[5]));
+                    return "User \"" + c[3] + "\" has successfully logged time on static activity \"" + c[2] + "\"."; 
+                }
+                
+                else { // Command: log <id*> <name*> <uuid*> <week*> <time*>
+                    checkSize(c,6);
+                    checkNotEmpty(c[1]);
+                    checkNotEmpty(c[2]);
+                    checkNotEmpty(c[3]);
+                    checkNotEmpty(c[4]);
+                    checkNotEmpty(c[5]);
+                    checkInt(c[4]);
+                    checkInt(c[5]);
+                    getActivity(c[1],c[2]).logTime(getEmployee(c[3]),Integer.parseInt(c[4]),Integer.parseInt(c[5]));
+                    return "User \"" + c[3] + "\" has successfully logged time on activity \"" + c[2] + "\".";
+                }
+                
+            }
+            
+            else if(c[0].equals("unlog")) {
+                
+                if(c[1].equals("staticActivity") || c[1].equals("sa")){ // Command: unlog staticActivity <name*> <uuid*> <week*> <time*>
+                    checkSize(c,6);
+                    checkNotEmpty(c[2]);
+                    checkNotEmpty(c[3]);
+                    checkNotEmpty(c[4]);
+                    checkNotEmpty(c[5]);
+                    checkInt(c[4]);
+                    checkInt(c[5]);
+                    getStaticActivity(c[2]).unlogTime(getEmployee(c[3]),Integer.parseInt(c[4]),Integer.parseInt(c[5]));
+                    return "User \"" + c[3] + "\" has successfully unlogged time on static activity \"" + c[2] + "\"."; 
+                }
+                
+                else { // Command: unlog <id*> <name*> <uuid*> <week*> <time*>
+                    checkSize(c,6);
+                    checkNotEmpty(c[1]);
+                    checkNotEmpty(c[2]);
+                    checkNotEmpty(c[3]);
+                    checkNotEmpty(c[4]);
+                    checkNotEmpty(c[5]);
+                    checkInt(c[4]);
+                    checkInt(c[5]);
+                    getActivity(c[1],c[2]).unlogTime(getEmployee(c[3]),Integer.parseInt(c[4]),Integer.parseInt(c[5]));
+                    return "User \"" + c[3] + "\" has successfully unlogged time on activity \"" + c[2] + "\".";
                 }
                 
             }
