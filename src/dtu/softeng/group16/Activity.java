@@ -30,7 +30,7 @@ public class Activity extends StaticActivity{
         this.budgetedTime = budgetedTime;
         this.startWeek = startWeek;
         this.duration = duration;
-    
+        
         this.assignees.addAll(Arrays.asList(assignees));
         
     }
@@ -115,7 +115,7 @@ public class Activity extends StaticActivity{
             nf.setGroupingUsed(false);
             nf.setMaximumFractionDigits(0);
             
-            double expected = (double) getBudgetedTime()/getDuration(); // we expect even work per week distribution (?)
+            double expected = (double) getBudgetedTime() / getDuration(); // we expect even work per week distribution (?)
             double pct = total / expected * 100;
             
             report += "Total work done: " + total + " (" + nf.format(pct) + "% of expected work this week).";

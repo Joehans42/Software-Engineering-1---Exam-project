@@ -12,7 +12,7 @@ import static org.junit.Assert.assertTrue;
  */
 public class GenerateReportsTests extends LoggedSystemTest{
     
-    @Test // white
+    @Test // black
     public void generateReports() throws Exception{ // Kenny
         for(Project p : main.getProjects().values()){
             for(int i = 0; 5 > i; i++){
