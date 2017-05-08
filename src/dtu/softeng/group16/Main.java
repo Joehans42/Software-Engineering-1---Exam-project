@@ -40,6 +40,10 @@ public class Main{
                 int duration = a.getDuration();
                 
                 HashSet<Employee> assignees = a.getAssignees();
+                
+                if(assignees.isEmpty())
+                    continue;
+                
                 int proj = budget / duration / assignees.size(); // how many expected hours per week
                 
                 for(Employee e : assignees)
