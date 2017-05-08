@@ -133,6 +133,7 @@ public class SystemUI{
                 return "An empty argument is given with \"_\". All arguments with a star \"*\" cannot be empty.\n" +
                        "activity = a, project = p, staticAcivity = sa\n" +
                        "Commands:\n" +
+                       "\tadd employee <uuid*>\n" +
                        "\tadd project <name> <week*> <owner>\n" +
                        "\tadd activity <project_id*> <name*> <budgetedTime*> <startWeek*> <duration*>\n" +
                        "\tadd staticActivity <name*>\n" +
