@@ -10,10 +10,18 @@ public class Employee{
     
     public Employee(String uuid){
         
+        this(uuid, 0);
+        
+    }
+    
+    public Employee(String uuid, int unloggedTime){
+        
         if(uuid.length() > 4)
             throw new IllegalArgumentException("Employee uuid can only be less than or equal to 4!");
         
         this.uuid = uuid;
+        
+        this.unloggedTime = unloggedTime;
         
     }
     
