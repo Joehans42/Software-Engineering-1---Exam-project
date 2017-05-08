@@ -10,7 +10,7 @@ import java.util.Scanner;
  */
 public class SystemUI{
     
-    private static Main main;
+    private static Main main = new Main();
     
     public static void main(String args[]){ // Rasmus
         main = new Main();
@@ -22,6 +22,10 @@ public class SystemUI{
             output = executeCommand(consoleReader.nextLine());
             System.out.println(output);
         }
+    }
+    
+    public Main getMain(){
+        return main;
     }
     
     private static void printStringArray(String[] strings){ // Rasmus
@@ -79,7 +83,7 @@ public class SystemUI{
     public static void deleteProject(String key){
         main.getProjects().remove(key);
     }
-
+    
     public static void addStaticActivity(StaticActivity a){ // Rasmus
         
         HashSet<StaticActivity> activities = main.getStaticActivities();
@@ -116,22 +120,22 @@ public class SystemUI{
         throw new IllegalArgumentException("No activity with name: " + activityName);
     }
     
-    public static void deleteActivity(String projectKey, String activityName) { // Rasmus
-        getProject(projectKey).getActivities().remove(getActivity(projectKey,activityName));
+    public static void deleteActivity(String projectKey, String activityName){ // Rasmus
+        getProject(projectKey).getActivities().remove(getActivity(projectKey, activityName));
     }
     
-    private static String executeCommand(String input){ // Rasmus
+    public static String executeCommand(String input){ // Rasmus
         String[] c = input.split(" ");
         try{
             
             // Finds the correct command.
             if(c[0].equals("help")){
                 return "An empty argument is given with \"_\". All arguments with a star \"*\" cannot be empty.\n" +
-                       "activity = a, project = p, staticAcivity = sa\n"+
+                       "activity = a, project = p, staticAcivity = sa\n" +
                        "Commands:\n" +
                        "\tadd project <name> <week*> <owner>\n" +
                        "\tadd activity <project_id*> <name*> <budgetedTime*> <startWeek*> <duration*>\n" +
-                       "\tadd staticActivity <name*>\n"+
+                       "\tadd staticActivity <name*>\n" +
                        "\tedit project manager <id*> <uuid>\n" +
                        "\tedit project name <id*> <name>\n" +
                        "\tedit activity name <project_id*> <name*> <newName*>\n" +
@@ -193,8 +197,8 @@ public class SystemUI{
                            "\n\tduration:\t\t" + activity.getDuration();
                 }
                 
-                else if(c[1].equals("staticActivity") || c[1].equals("sa")) { // Command: add staticActivity <name*>
-                    checkSize(c,3);
+                else if(c[1].equals("staticActivity") || c[1].equals("sa")){ // Command: add staticActivity <name*>
+                    checkSize(c, 3);
                     checkNotEmpty(c[2]);
                     addStaticActivity(new StaticActivity(c[2]));
                     return "Added new static activity \"" + c[2] + "\".";
@@ -293,12 +297,12 @@ public class SystemUI{
                         return "Duration of activity \"" + c[4] + "\" chanced to \"" + c[5] + "\".";
                     }
                     
-                    else if(c[2].equals("employee")) { // Command: edit activity employee <project_id*> <name*> <uuid*>
+                    else if(c[2].equals("employee")){ // Command: edit activity employee <project_id*> <name*> <uuid*>
                         checkSize(c, 6);
                         checkNotEmpty(c[3]);
                         checkNotEmpty(c[4]);
                         checkNotEmpty(c[5]);
-                        getActivity(c[3],c[4]).getAssignees().add(getEmployee(c[5]));
+                        getActivity(c[3], c[4]).getAssignees().add(getEmployee(c[5]));
                         return "Employee add to activity" + c[4];
                     }
                     
@@ -306,22 +310,22 @@ public class SystemUI{
                 
             }
             
-            else if(c[0].equals("log")) {
+            else if(c[0].equals("log")){
                 
                 if(c[1].equals("staticActivity") || c[1].equals("sa")){ // Command: log staticActivity <name*> <uuid*> <week*> <time*>
-                    checkSize(c,6);
+                    checkSize(c, 6);
                     checkNotEmpty(c[2]);
                     checkNotEmpty(c[3]);
                     checkNotEmpty(c[4]);
                     checkNotEmpty(c[5]);
                     checkInt(c[4]);
                     checkInt(c[5]);
-                    getStaticActivity(c[2]).logTime(getEmployee(c[3]),Integer.parseInt(c[4]),Integer.parseInt(c[5]));
-                    return "User \"" + c[3] + "\" has successfully logged time on static activity \"" + c[2] + "\"."; 
+                    getStaticActivity(c[2]).logTime(getEmployee(c[3]), Integer.parseInt(c[4]), Integer.parseInt(c[5]));
+                    return "User \"" + c[3] + "\" has successfully logged time on static activity \"" + c[2] + "\".";
                 }
                 
-                else { // Command: log <id*> <name*> <uuid*> <week*> <time*>
-                    checkSize(c,6);
+                else{ // Command: log <id*> <name*> <uuid*> <week*> <time*>
+                    checkSize(c, 6);
                     checkNotEmpty(c[1]);
                     checkNotEmpty(c[2]);
                     checkNotEmpty(c[3]);
@@ -329,28 +333,28 @@ public class SystemUI{
                     checkNotEmpty(c[5]);
                     checkInt(c[4]);
                     checkInt(c[5]);
-                    getActivity(c[1],c[2]).logTime(getEmployee(c[3]),Integer.parseInt(c[4]),Integer.parseInt(c[5]));
+                    getActivity(c[1], c[2]).logTime(getEmployee(c[3]), Integer.parseInt(c[4]), Integer.parseInt(c[5]));
                     return "User \"" + c[3] + "\" has successfully logged time on activity \"" + c[2] + "\".";
                 }
                 
             }
             
-            else if(c[0].equals("unlog")) {
+            else if(c[0].equals("unlog")){
                 
                 if(c[1].equals("staticActivity") || c[1].equals("sa")){ // Command: unlog staticActivity <name*> <uuid*> <week*> <time*>
-                    checkSize(c,6);
+                    checkSize(c, 6);
                     checkNotEmpty(c[2]);
                     checkNotEmpty(c[3]);
                     checkNotEmpty(c[4]);
                     checkNotEmpty(c[5]);
                     checkInt(c[4]);
                     checkInt(c[5]);
-                    getStaticActivity(c[2]).unlogTime(getEmployee(c[3]),Integer.parseInt(c[4]),Integer.parseInt(c[5]));
-                    return "User \"" + c[3] + "\" has successfully unlogged time on static activity \"" + c[2] + "\"."; 
+                    getStaticActivity(c[2]).unlogTime(getEmployee(c[3]), Integer.parseInt(c[4]), Integer.parseInt(c[5]));
+                    return "User \"" + c[3] + "\" has successfully unlogged time on static activity \"" + c[2] + "\".";
                 }
                 
-                else { // Command: unlog <id*> <name*> <uuid*> <week*> <time*>
-                    checkSize(c,6);
+                else{ // Command: unlog <id*> <name*> <uuid*> <week*> <time*>
+                    checkSize(c, 6);
                     checkNotEmpty(c[1]);
                     checkNotEmpty(c[2]);
                     checkNotEmpty(c[3]);
@@ -358,24 +362,24 @@ public class SystemUI{
                     checkNotEmpty(c[5]);
                     checkInt(c[4]);
                     checkInt(c[5]);
-                    getActivity(c[1],c[2]).unlogTime(getEmployee(c[3]),Integer.parseInt(c[4]),Integer.parseInt(c[5]));
+                    getActivity(c[1], c[2]).unlogTime(getEmployee(c[3]), Integer.parseInt(c[4]), Integer.parseInt(c[5]));
                     return "User \"" + c[3] + "\" has successfully unlogged time on activity \"" + c[2] + "\".";
                 }
                 
             }
             
-            else if(c[0].equals("delete")) {
+            else if(c[0].equals("delete")){
                 
-                if(c[1].equals("activity") || c[1].equals("a")) { // Command: delete activity <id*> <name*>
-                    checkSize(c,4);
+                if(c[1].equals("activity") || c[1].equals("a")){ // Command: delete activity <id*> <name*>
+                    checkSize(c, 4);
                     checkNotEmpty(c[2]);
                     checkNotEmpty(c[3]);
-                    deleteActivity(c[2],c[3]);
+                    deleteActivity(c[2], c[3]);
                     return "Activty \"" + c[3] + "\" was deleted from project \"" + c[2] + "\".";
                 }
                 
-                else if(c[1].equals("project") || c[1].equals("p")) { // Command: delete project <id*>
-                    checkSize(c,3);
+                else if(c[1].equals("project") || c[1].equals("p")){ // Command: delete project <id*>
+                    checkSize(c, 3);
                     checkNotEmpty(c[2]);
                     deleteProject(c[2]);
                     return "Project \"" + c[2] + "\" was deleted.";
