@@ -8,6 +8,7 @@ import static org.junit.Assert.assertTrue;
 /**
  * Created by REC on 05-May-17.
  */
+
 public class UiTests{
     
     // A few tests for some of the basic ui commands. Tests are proof of concept and not for every command.
