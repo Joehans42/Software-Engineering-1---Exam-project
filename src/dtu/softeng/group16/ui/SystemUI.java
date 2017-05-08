@@ -88,7 +88,10 @@ public class SystemUI{
     }
     
     public static void deleteProject(String key){
-        main.getProjects().remove(key);
+        
+        if(main.getProjects().remove(key) == null) // if nothing happened
+            throw new IllegalArgumentException("Project '" + key + "' does not exist!");
+        
     }
     
     public static void addStaticActivity(StaticActivity a){ // Rasmus
@@ -128,7 +131,12 @@ public class SystemUI{
     }
     
     public static void deleteActivity(String projectKey, String activityName){ // Rasmus
-        getProject(projectKey).getActivities().remove(getActivity(projectKey, activityName));
+        
+        HashSet<Activity> activities = getProject(projectKey).getActivities();
+        
+        if(!activities.remove(getActivity(projectKey, activityName))) // nothing happened
+            throw new IllegalArgumentException("No activity with name '" + activityName + "'!");
+        
     }
     
     public static String executeCommand(String input){ // Rasmus
